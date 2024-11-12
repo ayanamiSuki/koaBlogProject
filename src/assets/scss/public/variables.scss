@@ -1,0 +1,31 @@
+$theme1_box_bg_color: linear-gradient(to right, rgba(12, 31, 88, 0.8),rgba(5, 38, 137, 0.4), rgba(22, 38, 98, 0.8));
+$theme1_dlg_bg_color: linear-gradient(to right, rgba(12, 31, 88, .8), rgba(5, 38, 137, 0.95), rgba(22, 38, 98, .8));
+$theme1_item_bg_color: linear-gradient(to right, rgba(0, 255, 240, 0.3), rgba(9, 27, 81, 0.21));
+$theme1_item_wzg_color: rgb(153, 23, 4);
+$theme1_item_zg_color: rgba(53, 159, 208, 0.5);
+$theme1_item_hover_bg_color: linear-gradient(to right, rgba(255, 252, 30, 0.3), rgba(9, 27, 81, 0.21));
+$theme1_a_color: #f0dd5b;
+
+
+// 字体变量
+$font-xx:12px;
+$font-x: 12px;
+$font-s: 14px;
+$font-m: 16px;
+$font-b: 18px;
+$font-l: 20px;
+
+// 1.5 times
+$font-hs: 26px;
+$font-ht: 24px * 0.95;
+$font-hm: 26px * 0.95;
+$font-hb: 30px * 0.8;
+$font-hl: 32px * 0.8;
+
+// 2 times
+$font-ds: 34px * 0.8;
+$font-dm: 36px * 0.8;
+$font-db: 38px * 0.8;
+$font-dl: 40px * 0.8;
+$font-dx: 42px;
+$font-dt: 46px;

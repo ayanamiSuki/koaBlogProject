@@ -1,0 +1,5 @@
+module.exports = {
+  rules: {
+    'scss/no-global-function-names': null // 添加这一行
+  }
+}
