@@ -4,8 +4,8 @@
       <span>Talk is cheap. Show me the code. ----Linus Torvalds</span>
     </el-row>
     <div class="switch">
-      <span class="active">code</span>
-      <span>picture</span>
+      <!-- <span class="active">code</span> -->
+      <!-- <span>picture</span> -->
     </div>
     <el-row class="banner">
       <carousel :carouselList="carouselList" />
@@ -105,9 +105,9 @@ export default {
     &:hover {
       color: #002d4a;
     }
-    &:first-child {
-      border-right: 1px solid #666;
-    }
+    // &:first-child {
+    //   border-right: 1px solid #666;
+    // }
   }
   .active {
     color: #e7838c;

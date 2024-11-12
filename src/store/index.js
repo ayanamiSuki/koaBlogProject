@@ -20,7 +20,8 @@ export default new Vuex.Store({
     },
   },
   actions: {
-    nuxtServerInit({ commit }, { req }) {
+    getUserInfo({ commit }, { req }) {
+      console.log('[ req ] >', req)
       if (req.ctx.session.passport == undefined) {
         return false
       } else if (req.ctx.session.passport.user == undefined) {

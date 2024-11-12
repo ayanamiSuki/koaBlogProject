@@ -18,7 +18,7 @@ module.exports = defineConfig({
     proxy: {
       // proxy只能代理接口地址，静态资源没用
       '/api': {
-        target: 'http://127.0.0.1:3000/',
+        target: 'http://123.207.64.4/',
         ws: true,
         changeOrigin: true,
         pathRewrite: { '^/api': '' },

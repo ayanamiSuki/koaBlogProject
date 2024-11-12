@@ -2,10 +2,10 @@
   <div class="list">
     <div class="about-aya" @click="dialogVisible=true">
       <span class="about-ayanami">
-        about
+       关于
         <br />ayanamiSuki
       </span>
-      <img src="https://wx2.sinaimg.cn/mw690/9afd6f06gy1gdbw349et0j20mi140k65.jpg" alt="关于ayanami" />
+      <!-- <img src="https://wx2.sinaimg.cn/mw690/9afd6f06gy1gdbw349et0j20mi140k65.jpg" alt="关于ayanami" /> -->
     </div>
     <el-card class="article-recommend">
       <el-row class="recommend-title">
@@ -27,9 +27,9 @@
     <el-card class="picture-recommend">
       <el-row class="recommend-title">图片推荐</el-row>
       <el-row class="recommend-content" @click.native="toPicture">
-        <div v-for="(item,index) in 6" :key="'image'+index">
+        <!-- <div v-for="(item,index) in 6" :key="'image'+index">
           <img src="https://wx3.sinaimg.cn/mw690/9afd6f06gy1gd7peyq4v8j20f80e90t6.jpg" alt="title" />
-        </div>
+        </div> -->
       </el-row>
     </el-card>
 
@@ -39,7 +39,7 @@
           <span class="main-color">ayanamiSuki</span>，本质上是对二次元游戏[碧蓝航线[凌波]]中人物角色喜爱所以注册的网站
         </div>
         <div>
-          <span class="bold">朔月十六夜</span>，网站唯一神，服务器掌控者XD
+          <span class="bold">糖人</span>，网站唯一神，服务器掌控者XD
         </div>
         <div>
           本人只是个卑微的有着ACG爱好的程序员，网站采用
@@ -48,7 +48,7 @@
         <div>如果您偶然进入的这里，Thanks♪(･ω･)ﾉ</div>
         <div>如果你对前端开发（全栈开发）有兴趣。欢迎交流</div>
         <div>如果你对我有合作意向，也欢迎交流</div>
-        <div>唯一指定QQ 244802956</div>
+        <div>唯一指定QQ <span class="delete_line">337845818</span> 244802956</div>
       </div>
       <span slot="footer" class="dialog-footer">
         <el-button @click="dialogVisible = false">取 消</el-button>
@@ -97,6 +97,10 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.delete_line{
+  // 删除线
+  text-decoration: line-through;
+}
 .dialog-content {
   div {
     padding: 5px;

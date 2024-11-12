@@ -23,7 +23,7 @@
         <span class="avatar el-dropdown-link">
           <img
             :src="$store.state.userInfo.avatar||'https://wx3.sinaimg.cn/mw690/9afd6f06gy1gd7peyq4v8j20f80e90t6.jpg'"
-            :alt="'欢迎'+$store.state.userInfo.username+'来到朔月十六夜的小窝'"
+            :alt="'欢迎'+$store.state.userInfo.username+'来到ayanamiSuki的小窝'"
           />
         </span>
         <el-dropdown-menu slot="dropdown">
