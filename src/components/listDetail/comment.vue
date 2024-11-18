@@ -66,7 +66,7 @@ export default {
         return false;
       }
       let articleId = JSON.parse(this.$route.query.id);
-      this.$axios
+      this.$http
         .post("/comment/sendComment", { content: this.content, articleId })
         .then(res => {
           if (res.code === 0) {
@@ -80,7 +80,7 @@ export default {
     },
     async getComment() {
       let articleId = JSON.parse(this.$route.query.id);
-      let req = await this.$axios.get(
+      let req = await this.$http.get(
         "/comment/getComment?articleId=" + articleId
       );
       if (req.code === 0) {

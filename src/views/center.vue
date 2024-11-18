@@ -73,7 +73,7 @@ export default {
     }
   },
   async mounted() {
-    let list = await this.$axios.get('/article/myArticle')
+    let list = await this.$http.get('/article/myArticle')
     if (list.code === 0) {
       return { userInfo: store.state.userInfo, listItem: list.data }
     }

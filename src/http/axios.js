@@ -1,11 +1,18 @@
+import { getToken } from '@/common/auth'
+import { BASR_URL } from '@/common/ips'
 import axios from 'axios'
-const $axios = axios.create({
-  baseURL: '/api',
+const $http = axios.create({
+  baseURL: `${BASR_URL}`,
+  // withCredentials: true,
 })
 // request interceptor
-$axios.interceptors.request.use(
+$http.interceptors.request.use(
   (config) => {
     // do something before request is sent
+    const token = getToken()
+    if (token) {
+      config.headers.common['Authorization'] = 'aya ' + token // 留意这里的 Authorization
+    }
     return config
   },
   (error) => {
@@ -15,7 +22,7 @@ $axios.interceptors.request.use(
 )
 
 // response interceptor
-$axios.interceptors.response.use(
+$http.interceptors.response.use(
   /**
    * Determine the request status by custom code
    * Here is just an example
@@ -23,6 +30,11 @@ $axios.interceptors.response.use(
    */
   (response) => {
     const res = response.data
+    const code = res.code
+    if (code === 401) {
+      removeToken()
+      return window.location.reload()
+    }
     return res
   },
   (error) => {
@@ -31,4 +43,4 @@ $axios.interceptors.response.use(
     return Promise.reject(error)
   },
 )
-export default $axios
+export default $http

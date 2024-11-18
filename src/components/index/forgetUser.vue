@@ -65,7 +65,7 @@ export default {
       let s = this;
       s.$refs[formName].validate(valid => {
         if (valid) {
-          s.$axios
+          s.$http
             .post("/users/changePass", {
               username: s.ruleForm.username,
               email: s.ruleForm.email,
@@ -93,7 +93,7 @@ export default {
       }
       that.$refs["ruleForm"].validateField("email", valid => {
         if (!valid) {
-          this.$axios
+          this.$http
             .post("/users/verify", {
               username: this.ruleForm.username,
               email: this.ruleForm.email

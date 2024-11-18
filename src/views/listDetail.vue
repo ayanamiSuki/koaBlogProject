@@ -16,8 +16,8 @@ export default {
   components: {
     comment
   },
-  async asyncData({ query, $axios }) {
-    let getListDetail = await $axios.get("/article/getarticleDetail", {
+  async asyncData({ query, $http }) {
+    let getListDetail = await $http.get("/article/getarticleDetail", {
       params: {
         _id: JSON.parse(query.id)
       }

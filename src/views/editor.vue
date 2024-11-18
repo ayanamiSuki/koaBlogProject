@@ -74,7 +74,7 @@ export default {
   methods: {
     async getReviseData() {
       if (this.$route.query.id) {
-        let req = await this.$axios.get(
+        let req = await this.$http.get(
           "article/getSingleArticle?id=" + JSON.parse(this.$route.query.id)
         );
         if (req.code === 0) {
@@ -111,7 +111,7 @@ export default {
         _url = "/article/editArticle";
         id = JSON.parse(this.$route.query.id);
       }
-      this.$axios.post(_url, { title, content, bg, id }).then(res => {
+      this.$http.post(_url, { title, content, bg, id }).then(res => {
         if (res.code === 0) {
           this.$message({
             type: "success",
@@ -155,7 +155,7 @@ export default {
         let config = {
           headers: { "Content-Type": "multipart/form-data" }
         }; //添加请求头
-        this.$axios.post("article/image", param, config).then(response => {
+        this.$http.post("article/image", param, config).then(response => {
           // console.log(response.data);
           // this.headImg = response.data.url;
           this.sub(response.data.url);

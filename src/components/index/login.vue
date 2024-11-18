@@ -64,6 +64,8 @@
   </el-card>
 </template>
 <script>
+import { setToken } from '@/common/auth';
+
 export default {
   data() {
     var checkAccount = (rule, value, callback) => {
@@ -129,12 +131,12 @@ export default {
     submitForm(formName) {
       this.$refs[formName].validate(valid => {
         if (valid) {
-          console.log(this.$axios);
+          console.log(this.$http);
       
           if (formName === "ruleForm1") {
-            console.log(this.$axios);
+            console.log(this.$http);
             
-            this.$axios
+            this.$http
               .post("users/signin", {
                 password: this.ruleForm1.pass,
                 username: this.ruleForm1.username
@@ -145,6 +147,7 @@ export default {
                     type: "success",
                     message: res.msg
                   });
+                  setToken(res.data.token);
                   this.$emit("logined", null);
                 } else {
                   this.$message.error(res.msg);
@@ -152,7 +155,7 @@ export default {
               });
             return false;
           } else {
-            this.$axios
+            this.$http
               .post("users/signup", {
                 username: this.ruleForm.username,
                 password: this.ruleForm.pass,
@@ -183,7 +186,7 @@ export default {
         if (!valid) {
           that.$refs["ruleForm"].validateField("username", valid2 => {
             if (!valid2) {
-              this.$axios
+              this.$http
                 .post("/users/verify", {
                   username: this.ruleForm.username,
                   email: this.ruleForm.email

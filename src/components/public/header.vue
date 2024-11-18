@@ -4,7 +4,7 @@
       <login
         @loginSuccess="loginStatus=false"
         @closeModel="loginStatus=false"
-        @logined="login"
+        @logined="handleLogin"
         @showForget="forgetStatus=true,loginStatus=false"
         v-if="loginStatus"
         ref="loginComponent"
@@ -67,16 +67,15 @@ export default {
     toCode() {
       this.$router.replace("/");
     },
-    login() {
-     
-      this.$axios.get("/users/getUser").then(res => {
+    handleLogin() {
+      this.$http.get("/users/getUser").then(res => {
         this.username = res.username;
         this.loginStatus = false;
         this.$store.dispatch("loginUser", res);
       });
     },
     exit() {
-      this.$axios.get("users/exit").then(res => {
+      this.$http.get("users/exit").then(res => {
         if (res.code === 0) {
           this.$message({
             type: "success",

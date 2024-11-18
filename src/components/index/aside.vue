@@ -85,7 +85,7 @@ export default {
       });
     },
     async refresh() {
-      let asideReq = await this.$axios.get("/article/recommend");
+      let asideReq = await this.$http.get("/article/recommend");
       this.isRe = true;
       if (asideReq.code === 0) {
         this.asideList = asideReq.data;

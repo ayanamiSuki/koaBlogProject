@@ -15,12 +15,7 @@
       <aside-item class="aside-item-wrap" :asideList="asideList" />
     </el-row>
     <el-row class="page">
-      <el-pagination
-        background
-        layout="prev, pager, next"
-        :total="count"
-        @current-change="pageChage"
-      ></el-pagination>
+      <el-pagination background layout="prev, pager, next" :total="count" @current-change="pageChage"></el-pagination>
     </el-row>
     <el-row class="fixed-btn">
       <itemBtn />
@@ -29,57 +24,55 @@
 </template>
 
 <script>
-import listItem from "../components/index/list";
-import carousel from "../components/index/carousel";
-import itemBtn from "../components/public/itemBtn";
-import asideItem from "../components/index/aside";
+import listItem from '../components/index/list'
+import carousel from '../components/index/carousel'
+import itemBtn from '../components/public/itemBtn'
+import asideItem from '../components/index/aside'
 export default {
   components: {
     listItem,
     carousel,
     itemBtn,
-    asideItem
+    asideItem,
   },
-  async asyncData(ctx) {
-    let listRequest = await ctx.$axios.get("article/getarticle?page=1");
-    let carouselReq = await ctx.$axios.get("/article/getCarousel");
-    let asideReq = await ctx.$axios.get("/article/recommend");
-    if (
-      listRequest.code === 0 &&
-      carouselReq.code === 0 &&
-      asideReq.code === 0
-    ) {
-      return {
-        list: listRequest.data.result,
-        count: listRequest.data.count,
-        carouselList: carouselReq.data,
-        asideList: asideReq.data
-      };
-    }
-  },
+
   data() {
     return {
       isloading: false,
       list: [],
       carouselList: [],
       asideList: [],
-      count: 1
-    };
+      count: 1,
+    }
   },
   mounted() {
+    this.asyncData()
     setTimeout(() => {
-      this.isloading = true;
-    }, 1000);
+      this.isloading = true
+    }, 1000)
   },
   methods: {
-    async pageChage(val) {
-      let listRequest = await this.$axios.get("article/getarticle?page=" + val);
-      if (listRequest.code === 0) {
-        this.list = listRequest.data.result;
+    async asyncData() {
+      let listRequest = await this.$http.get('article/getarticle?page=1')
+      let carouselReq = await this.$http.get('/article/getCarousel')
+      let asideReq = await this.$http.get('/article/recommend')
+      if (listRequest.code === 0 && carouselReq.code === 0 && asideReq.code === 0) {
+        return {
+          list: listRequest.data.result,
+          count: listRequest.data.count,
+          carouselList: carouselReq.data,
+          asideList: asideReq.data,
+        }
       }
-    }
-  }
-};
+    },
+    async pageChage(val) {
+      let listRequest = await this.$http.get('article/getarticle?page=' + val)
+      if (listRequest.code === 0) {
+        this.list = listRequest.data.result
+      }
+    },
+  },
+}
 </script>
 
 <style lang="scss" scoped>
