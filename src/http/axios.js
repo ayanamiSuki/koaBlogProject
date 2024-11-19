@@ -11,7 +11,7 @@ $http.interceptors.request.use(
     // do something before request is sent
     const token = getToken()
     if (token) {
-      config.headers.common['Authorization'] = 'aya ' + token // 留意这里的 Authorization
+      config.headers.Authorization = 'Bearer ' + token
     }
     return config
   },
@@ -30,7 +30,10 @@ $http.interceptors.response.use(
    */
   (response) => {
     const res = response.data
-    const code = res.code
+    // const { code, msg, data } = res.code
+    // if (code === 0) {
+    //   return data
+    // }
     // if (code === 401) {
     //   removeToken()
     //   return window.location.reload()
