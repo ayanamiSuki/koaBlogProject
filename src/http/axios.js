@@ -31,10 +31,10 @@ $http.interceptors.response.use(
   (response) => {
     const res = response.data
     const code = res.code
-    if (code === 401) {
-      removeToken()
-      return window.location.reload()
-    }
+    // if (code === 401) {
+    //   removeToken()
+    //   return window.location.reload()
+    // }
     return res
   },
   (error) => {
