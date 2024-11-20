@@ -1,5 +1,8 @@
 # koaBlogProject
 
+koa+vue2+mongodb+element-ui
+后期有空修改vue3+arco-design-vue
+
 ## Project setup
 ```
 npm install
