@@ -7,6 +7,7 @@ import Index from '@/views/index.vue'
 import Editor from '@/views/editor.vue'
 import ListDetail from '@/views/listDetail.vue'
 import Picture from '@/views/picture.vue'
+import { fed } from './fed'
 // 安装Router插件
 Vue.use(Router)
 const routes = [
@@ -19,5 +20,10 @@ const routes = [
 ]
 
 const router = new Router({ routes })
+
+router.beforeEach((to, from, next) => {
+  // 设置页面标题
+  fed(to, from, next, router)
+})
 // 导出Router实例
 export default router

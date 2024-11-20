@@ -56,7 +56,25 @@ export default {
       headImg: 'https://wx3.sinaimg.cn/mw690/9afd6f06gy1gctay1ir55j21yt0ik40w.jpg',
       file: '',
       netImg: 'http://www.',
-      toolbarConfig: {},
+      toolbarConfig: {
+        toolbarKeys: [
+          // 菜单 key
+          'headerSelect',
+          // 分割线
+          '|',
+          // 菜单 key
+          'bold',
+          'italic',
+          // 菜单组，包含多个菜单
+          {
+            key: 'group-more-style', // 必填，要以 group 开头
+            title: '更多样式', // 必填
+            iconSvg: '<svg>....</svg>', // 可选
+            menuKeys: ['through', 'code', 'clearStyle'], // 下级菜单 key ，必填
+          },
+          // 继续配置其他菜单...
+        ],
+      },
       html: '<p></p>',
       editorConfig: { placeholder: '请输入内容...' },
       mode: 'default', // or 'simple'
@@ -116,14 +134,11 @@ export default {
         if (res) {
           this.$message({
             type: 'success',
-            message: res.msg,
+            message: '发布成功',
           })
           setTimeout(() => {
             this.$router.push('/')
           }, 1000)
-        } else {
-          this.$message.error(res.msg)
-          this.update = false
         }
       })
     },
@@ -151,7 +166,7 @@ export default {
         let config = {
           headers: { 'Content-Type': 'multipart/form-data' },
         } //添加请求头
-        this.$http.post('article/image', param, config).then((response) => {
+        this.$http.reqeust('article/image', param, 'POST', config).then((response) => {
           // console.log(response.data);
           // this.headImg = response.data.url;
           this.sub(response.data.url)

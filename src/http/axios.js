@@ -1,4 +1,4 @@
-import { getToken } from '@/common/auth'
+import { getToken, removeToken } from '@/common/auth'
 import { BASR_URL } from '@/common/ips'
 import axios from 'axios'
 export const $axios = axios.create({
@@ -55,6 +55,7 @@ $axios.interceptors.response.use(
           break
         case 401:
           message = '请求要求用户的身份认证！'
+          removeToken()
           break
         case 403:
           message = '请求被拒绝！'

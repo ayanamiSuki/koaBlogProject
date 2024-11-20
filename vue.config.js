@@ -22,6 +22,11 @@ module.exports = defineConfig({
         changeOrigin: true,
         pathRewrite: { '^/api': '' },
       },
+      '/uploads': {
+        target: 'http://123.207.64.4',
+        ws: true,
+        changeOrigin: true,
+      },
     },
   },
   //webpack部分配置

@@ -5,6 +5,7 @@ import { http } from './http/index'
 import ElementUI from 'element-ui'
 import './assets/scss/public/global.scss'
 import 'element-ui/lib/theme-chalk/index.css'
+import '@wangeditor/editor/dist/css/style.css'
 import store from '@/store'
 Vue.config.productionTip = false
 
