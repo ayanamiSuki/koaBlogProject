@@ -113,7 +113,7 @@ export default {
 .list {
   .about-aya {
     overflow: hidden;
-    height: 350px;
+    height: 80px;
     border-radius: 3px;
     margin-bottom: 15px;
     position: relative;
