@@ -3,10 +3,6 @@
     <el-row class="ohter-intro lg">
       <span>Talk is cheap. Show me the code. ----Linus Torvalds</span>
     </el-row>
-    <div class="switch">
-      <!-- <span class="active">code</span> -->
-      <!-- <span>picture</span> -->
-    </div>
     <el-row class="banner">
       <carousel :carouselList="carouselList" />
     </el-row>
@@ -47,23 +43,14 @@ export default {
   },
   mounted() {
     this.asyncData()
-    setTimeout(() => {
-      this.isloading = true
-    }, 1000)
   },
   methods: {
     async asyncData() {
-      let listRequest = await this.$http.get('article/getarticle?page=1')
-      let carouselReq = await this.$http.get('/article/getCarousel')
-      let asideReq = await this.$http.get('/article/recommend')
-      if (listRequest.code === 0 && carouselReq.code === 0 && asideReq.code === 0) {
-        return {
-          list: listRequest.data.result,
-          count: listRequest.data.count,
-          carouselList: carouselReq.data,
-          asideList: asideReq.data,
-        }
-      }
+      this.isloading = true
+      this.list = await this.$http.get('article/getarticle?page=1')
+      this.carouselList = await this.$http.get('/article/getCarousel')
+      this.asideList = await this.$http.get('/article/recommend')
+      this.isloading = false
     },
     async pageChage(val) {
       let listRequest = await this.$http.get('article/getarticle?page=' + val)

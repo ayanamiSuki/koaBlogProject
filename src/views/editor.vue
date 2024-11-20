@@ -3,46 +3,36 @@
     <el-row class="title">
       <el-input v-model="title" placeholder="请填写文章标题"></el-input>
       <el-row class="upload-activex">
-        <label @click="dialogVisible=true">
+        <label @click="dialogVisible = true">
           <i class="el-icon-picture-outline-round"></i>
           上传封面
         </label>
       </el-row>
       <div class="head-img">
-        <img :src="headImg" alt="朔月十六夜的小窝" />
+        <img :src="headImg" alt="aya的小窝" />
       </div>
     </el-row>
     <div class="zone">
       <div>
         <el-button class="sm se-title" @click="insertTitle">插入副标题</el-button>
       </div>
-      <div id="editor"></div>
+      <div id="editor">
+        <Toolbar style="border-bottom: 1px solid #ccc" :editor="editor" :defaultConfig="toolbarConfig" :mode="mode" />
+        <Editor style="height: 500px; overflow-y: hidden" v-model="html" :defaultConfig="editorConfig" :mode="mode" @onCreated="onCreated" />
+      </div>
     </div>
     <el-row class="sub">
-      <el-button @click="updateImage">{{reeditor?"修改文章":"发布文章"}}</el-button>
+      <el-button @click="updateImage">{{ reeditor ? '修改文章' : '发布文章' }}</el-button>
     </el-row>
 
-    <el-dialog
-      title="您可以选择"
-      :visible.sync="dialogVisible"
-      :close-on-click-modal="false"
-      width="30%"
-      class="dialog"
-    >
+    <el-dialog title="您可以选择" :visible.sync="dialogVisible" :close-on-click-modal="false" width="30%" class="dialog">
       <div>
-        <span style="padding-bottom:10px;display:inline-block">网络图片:</span>
+        <span style="padding-bottom: 10px; display: inline-block">网络图片:</span>
         <el-input type="text" v-model="netImg" />
       </div>
       <div>或者</div>
       <label for="file">本地上传</label>
-      <input
-        id="file"
-        class="file"
-        name="file"
-        type="file"
-        accept="image/png, image/gif, image/jpeg"
-        @change="getImage"
-      />
+      <input id="file" class="file" name="file" type="file" accept="image/png, image/gif, image/jpeg" @change="getImage" />
       <span slot="footer" class="dialog-footer">
         <el-button @click="dialogVisible = false">取 消</el-button>
         <el-button class="dialog-sub" @click="dialogSub">确 定</el-button>
@@ -52,136 +42,142 @@
 </template>
 
 <script>
-import xss from "xss";
+import xss from 'xss'
+import { Editor, Toolbar } from '@wangeditor/editor-for-vue'
 export default {
+  components: { Editor, Toolbar },
   data() {
     return {
-      title: "",
-      editor: "",
+      title: '',
+      editor: '',
       update: false,
       dialogVisible: false,
       reeditor: false,
-      headImg:
-        "https://wx3.sinaimg.cn/mw690/9afd6f06gy1gctay1ir55j21yt0ik40w.jpg",
-      file: "",
-      netImg: "http://www."
-    };
+      headImg: 'https://wx3.sinaimg.cn/mw690/9afd6f06gy1gctay1ir55j21yt0ik40w.jpg',
+      file: '',
+      netImg: 'http://www.',
+      toolbarConfig: {},
+      html: '<p></p>',
+      editorConfig: { placeholder: '请输入内容...' },
+      mode: 'default', // or 'simple'
+    }
   },
   mounted() {
-    this.editorInit();
-    this.getReviseData();
+    this.getReviseData()
+  },
+  beforeDestroy() {
+    const editor = this.editor
+    if (editor == null) return
+    editor.destroy() // 组件销毁时，及时销毁编辑器
   },
   methods: {
+    onCreated() {
+      this.editorInit()
+    },
     async getReviseData() {
       if (this.$route.query.id) {
-        let req = await this.$http.get(
-          "article/getSingleArticle?id=" + JSON.parse(this.$route.query.id)
-        );
+        let req = await this.$http.get('article/getSingleArticle?id=' + JSON.parse(this.$route.query.id))
         if (req.code === 0) {
-          console.log(req.data);
-          this.title = req.data.title;
-          this.headImg = req.data.bg;
-          this.netImg = req.data.bg;
-          this.editor.cmd.do("insertHTML", req.data.content);
-          this.reeditor = true;
+          console.log(req.data)
+          this.title = req.data.title
+          this.headImg = req.data.bg
+          this.netImg = req.data.bg
+          this.editor.cmd.do('insertHTML', req.data.content)
+          this.reeditor = true
         }
       }
     },
-    editorInit() {
+    editorInit(editor) {
       // const Editor = process.client ? require("wangeditor") : undefined;
-      const Editor = window.wangEditor;
-      this.editor = new Editor("#editor");
-      this.editor.customConfig.menus = ["code", "image"];
-      this.editor.create();
+      // const Editor = window.wangEditor
+      // this.editor = new Editor('#editor')
+      // this.editor.customConfig.menus = ['code', 'image']
+      // this.editor.create()
+      this.editor = Object.seal(editor) // 一定要用 Object.seal() ，否则会报错
     },
     insertTitle() {
-      this.editor.cmd.do("insertHTML", "<h2>二级标题</h2>");
+      this.editor.cmd.do('insertHTML', '<h2>二级标题</h2>')
     },
     sub(bg) {
       if (this.update) {
-        return false;
+        return false
       }
-      this.update = true;
-      let title = this.title;
-      let html = this.editor.txt.html();
-      let content = xss(html); // 此处进行 xss 攻击过滤
-      let _url = "/article/uploadarticle";
-      let id = "";
+      this.update = true
+      let title = this.title
+      let html = this.html
+      let content = xss(html) // 此处进行 xss 攻击过滤
+      let _url = '/article/uploadarticle'
+      let id = ''
       if (this.reeditor) {
-        _url = "/article/editArticle";
-        id = JSON.parse(this.$route.query.id);
+        _url = '/article/editArticle'
+        id = JSON.parse(this.$route.query.id)
       }
-      this.$http.post(_url, { title, content, bg, id }).then(res => {
-        if (res.code === 0) {
+      this.$http.post(_url, { title, content, bg, id }).then((res) => {
+        if (res) {
           this.$message({
-            type: "success",
-            message: res.msg
-          });
+            type: 'success',
+            message: res.msg,
+          })
           setTimeout(() => {
-            this.$router.push("/");
-          }, 1000);
+            this.$router.push('/')
+          }, 1000)
         } else {
-          this.$message.error(res.msg);
-          this.update = false;
+          this.$message.error(res.msg)
+          this.update = false
         }
-      });
+      })
     },
     getImage(e) {
-      this.file = e.target.files[0];
-      this.headImg = URL.createObjectURL(this.file); //使用本地图片路径
-      this.dialogVisible = false;
-      this.netImg = "";
+      this.file = e.target.files[0]
+      this.headImg = URL.createObjectURL(this.file) //使用本地图片路径
+      this.dialogVisible = false
+      this.netImg = ''
     },
     updateImage() {
-      if (this.file == "" && this.netImg == "") {
-        this.$message.error("请上传头图");
-        return false;
+      if (this.file == '' && this.netImg == '') {
+        this.$message.error('请上传头图')
+        return false
       }
       if (this.title.length < 2 || this.title.length > 50) {
-        this.$message.error("标题字数限制为2-50字");
-        return false;
-      } else if (
-        this.editor.txt
-          .text()
-          .replace(/&nbsp;/g, "")
-          .replace(/ /g, "") == ""
-      ) {
-        this.$message.error("请编辑内容");
-        return false;
+        this.$message.error('标题字数限制为2-50字')
+        return false
+      } else if (this.html.replace(/&nbsp;/g, '').replace(/ /g, '') == '') {
+        this.$message.error('请编辑内容')
+        return false
       }
-      if (this.netImg == "") {
-        let param = new FormData(); //创建form对象
-        param.append("file", this.file); //通过append向form对象添加数据
+      if (this.netImg == '') {
+        let param = new FormData() //创建form对象
+        param.append('file', this.file) //通过append向form对象添加数据
         let config = {
-          headers: { "Content-Type": "multipart/form-data" }
-        }; //添加请求头
-        this.$http.post("article/image", param, config).then(response => {
+          headers: { 'Content-Type': 'multipart/form-data' },
+        } //添加请求头
+        this.$http.post('article/image', param, config).then((response) => {
           // console.log(response.data);
           // this.headImg = response.data.url;
-          this.sub(response.data.url);
-        });
+          this.sub(response.data.url)
+        })
       } else {
-        this.sub(this.headImg);
+        this.sub(this.headImg)
       }
     },
     dialogSub() {
-      let image = new Image();
-      let that = this;
-      image.onload = function() {
-        that.dialogVisible = false;
-        that.headImg = that.netImg;
-      };
-      image.onerror = function(err) {
-        that.$message.error(err);
-      };
+      let image = new Image()
+      let that = this
+      image.onload = function () {
+        that.dialogVisible = false
+        that.headImg = that.netImg
+      }
+      image.onerror = function (err) {
+        that.$message.error(err)
+      }
 
-      image.src = this.netImg;
-    }
-  }
-};
+      image.src = this.netImg
+    },
+  },
+}
 </script>
 
-<style lang='scss' scoped>
+<style lang="scss" scoped>
 .dialog {
   div {
     padding: 5px 0;

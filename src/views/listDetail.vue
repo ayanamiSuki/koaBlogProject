@@ -1,37 +1,38 @@
 <template>
   <div class="detail-container">
     <div class="main">
-      <div class="user">{{listDetail.user}}</div>
-      <div class="time">{{listDetail.time}}</div>
-      <div class="title">{{listDetail.title}}</div>
+      <div class="user">{{ listDetail.user }}</div>
+      <div class="time">{{ listDetail.time }}</div>
+      <div class="title">{{ listDetail.title }}</div>
       <div v-html="listDetail.content" class="content"></div>
     </div>
-    <comment class="comment-components" />
+    <comment class="comment-components" :id="id" />
   </div>
 </template>
 
 <script>
-import comment from "../components/listDetail/comment";
+import comment from '../components/listDetail/comment'
 export default {
   components: {
-    comment
+    comment,
   },
-  async asyncData({ query, $http }) {
-    let getListDetail = await $http.get("/article/getarticleDetail", {
-      params: {
-        _id: JSON.parse(query.id)
-      }
-    });
-    if (getListDetail.code === 0) {
-      return { listDetail: getListDetail.data };
-    }
-  },
+
   data() {
     return {
-      listDetail: ""
-    };
-  }
-};
+      id: null,
+      listDetail: '',
+    }
+  },
+  created() {
+    this.id = this.$route.query.id
+    this.asyncData(this.$route.query.id)
+  },
+  methods: {
+    async asyncData(id) {
+      this.listDetail = await this.$http.get('/article/getarticleDetail', { _id: id })
+    },
+  },
+}
 </script>
 
 <style lang="scss">

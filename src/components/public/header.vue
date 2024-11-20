@@ -2,28 +2,24 @@
   <div class="header">
     <transition name="slide-down">
       <login
-        @loginSuccess="loginStatus=false"
-        @closeModel="loginStatus=false"
+        @loginSuccess="loginStatus = false"
+        @closeModel="loginStatus = false"
         @logined="handleLogin"
-        @showForget="forgetStatus=true,loginStatus=false"
+        @showForget=";(forgetStatus = true), (loginStatus = false)"
         v-if="loginStatus"
         ref="loginComponent"
       />
     </transition>
     <transition name="slide-down">
-      <forget
-        @forgetSuccess="forgetStatus=false"
-        @closeModel="forgetStatus=false"
-        v-if="forgetStatus"
-        ref="forgetComponent"
-      />
+      <forget @forgetSuccess="forgetStatus = false" @closeModel="forgetStatus = false" v-if="forgetStatus" ref="forgetComponent" />
     </transition>
+    <div class="title">ays test web</div>
     <el-row class="user-content">
       <el-dropdown v-if="username">
         <span class="avatar el-dropdown-link">
           <img
-            :src="$store.state.userInfo.avatar||'https://wx3.sinaimg.cn/mw690/9afd6f06gy1gd7peyq4v8j20f80e90t6.jpg'"
-            :alt="'欢迎'+$store.state.userInfo.username+'来到ayanamiSuki的小窝'"
+            :src="$store.state.userInfo.avatar || 'https://wx3.sinaimg.cn/mw690/9afd6f06gy1gd7peyq4v8j20f80e90t6.jpg'"
+            :alt="'欢迎' + $store.state.userInfo.username + '来到ayanamiSuki的小窝'"
           />
         </span>
         <el-dropdown-menu slot="dropdown">
@@ -33,69 +29,70 @@
         </el-dropdown-menu>
       </el-dropdown>
       <el-row v-else>
-        <span @click="loginStatus=true" class="not-login">注册/登录</span>
+        <span @click="loginStatus = true" class="not-login">注册/登录</span>
       </el-row>
     </el-row>
   </div>
 </template>
 
 <script>
-import login from "../index/login";
-import forget from "../index/forgetUser";
+import login from '../index/login'
+import forget from '../index/forgetUser'
+import { getToken } from '@/common/auth'
 export default {
   components: {
     login,
-    forget
+    forget,
   },
   data() {
     return {
-      username: "",
+      username: '',
       loginStatus: false,
-      forgetStatus: false
-    };
+      forgetStatus: false,
+    }
   },
-  mounted() {
-    this.loginState();
+  async mounted() {
+    if (getToken()) {
+      await this.handleLogin()
+    }
+    this.loginState()
   },
   methods: {
     loginState() {
       if (this.$store.state.userInfo.username) {
-        this.loginStatus = false;
-        this.username = this.$store.state.userInfo.username;
+        this.loginStatus = false
+        this.username = this.$store.state.userInfo.username
       }
     },
     toCode() {
-      this.$router.replace("/");
+      this.$router.replace('/')
     },
     handleLogin() {
-      this.$http.get("/users/getUser").then(res => {
-        this.username = res.username;
-        this.loginStatus = false;
-        this.$store.dispatch("loginUser", res);
-      });
+      return this.$http.get('/users/getUser').then((res) => {
+        this.username = res.username
+        this.loginStatus = false
+        this.$store.dispatch('loginUser', res)
+      })
     },
     exit() {
-      this.$http.get("users/exit").then(res => {
+      this.$http.get('users/exit').then((res) => {
         if (res.code === 0) {
           this.$message({
-            type: "success",
-            message: res.msg
-          });
-          this.username = "";
-          this.$store.dispatch("exitUser");
-          this.$router.push("/");
+            type: 'success',
+            message: res.msg,
+          })
+          this.username = ''
+          this.$store.dispatch('exitUser')
+          this.$router.push('/')
         }
-      });
-    }
-  }
-};
+      })
+    },
+  },
+}
 </script>
 
 <style lang="scss" scoped>
 .header {
-  background: url(https://wx2.sinaimg.cn/mw690/9afd6f06gy1gd7keltxwnj20ro03ywef.jpg)
-    center center no-repeat;
-  background-size: 15%;
   position: relative;
   height: 100px;
   display: flex;

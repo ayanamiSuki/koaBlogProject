@@ -14,8 +14,5 @@ export default {
     ayaHeader,
     ayaFooter,
   },
-  created() {
-    // this.$store.dispatch('getUserInfo')
-  },
 }
 </script>

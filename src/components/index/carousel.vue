@@ -1,33 +1,21 @@
 <template>
-  <el-carousel
-    :interval="4000"
-    type="card"
-    height="350px"
-    class="carousel"
-    :autoplay="false"
-    indicator-position="none"
-    @change="changeaCrousel"
-  >
-    <el-carousel-item
-      v-for="(item,index) in carouselList"
-      :key="index"
-      @click.native="toDetail(item._id,index)"
-    >
+  <el-carousel :interval="4000" type="card" height="350px" class="carousel" :autoplay="false" indicator-position="none" @change="changeaCrousel">
+    <el-carousel-item v-for="(item, index) in carouselList" :key="index" @click.native="toDetail(item._id, index)">
       <el-row class="carousel-img">
         <img :src="item.bg" :alt="item.title" />
       </el-row>
       <transition name="el-fade-in-linear">
-        <el-card class="carousel-title" v-show="tips===index">
+        <el-card class="carousel-title" v-show="tips === index">
           <div class="carousel-content">
-            <el-row>{{item.title}}</el-row>
+            <el-row>{{ item.title }}</el-row>
             <el-row class="carousel-other-info">
               <span class="lfx">
                 <i class="el-icon-user"></i>
-                {{item.user}}
+                {{ item.user }}
               </span>
               <span class="rtx">
                 <i class="el-icon-timer"></i>
-                {{item.time}}
+                {{ item.time }}
               </span>
             </el-row>
           </div>
@@ -39,11 +27,11 @@
 
 <script>
 export default {
-  props: ["carouselList"],
+  props: ['carouselList'],
   data() {
     return {
-      tips: 0
-    };
+      tips: 0,
+    }
   },
   mounted() {
     // console.log(this.carouselList);
@@ -51,19 +39,19 @@ export default {
   methods: {
     changeaCrousel(now, old) {
       setTimeout(() => {
-        this.tips = now;
-      }, 100);
+        this.tips = now
+      }, 100)
     },
     toDetail(id, index) {
       if (this.tips === index) {
         this.$router.push({
-          path: "/listDetail",
-          query: { id: JSON.stringify(id) }
-        });
+          path: '/listDetail',
+          query: { id },
+        })
       }
-    }
-  }
-};
+    },
+  },
+}
 </script>
 
 <style lang="scss">

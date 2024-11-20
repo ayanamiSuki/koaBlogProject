@@ -1,32 +1,27 @@
 <template>
   <ul class="list">
     <div class="new-list">每日更新</div>
-    <li
-      class="list-item"
-      v-for="(i,index) in listData"
-      @click="corrugatedClick(index,$event,i._id)"
-      :key="index"
-    >
+    <li class="list-item" v-for="(i, index) in listData" @click="corrugatedClick(index, $event, i._id)" :key="index">
       <div class="list-content-wrap">
         <div>
-          <span class="lf">{{i.title}}</span>
+          <span class="lf">{{ i.title }}</span>
         </div>
         <div class="rt">
           <span>
             <i class="el-icon-user"></i>
-            {{i.user}}
+            {{ i.user }}
           </span>
           <span class="tips sm">
             <i class="el-icon-timer"></i>
-            {{i.time}}
+            {{ i.time }}
           </span>
           <span class="click-count sm">
             <i class="el-icon-view"></i>
-            {{i.click}}
+            {{ i.click }}
           </span>
           <span class="sm from">
             from:
-            <span style="color:#666">code</span>
+            <span style="color: #666">code</span>
           </span>
         </div>
       </div>
@@ -42,35 +37,35 @@
 
 <script>
 export default {
-  props: ["listData"],
+  props: ['listData'],
   data() {
-    return { list: [] };
+    return { list: [] }
   },
   mounted() {},
   methods: {
     corrugatedClick(index, e, id) {
-      let corrugatedDom = this.$refs["corrugated"][index];
-      if (corrugatedDom.classList.contains("active")) {
-        return false;
+      let corrugatedDom = this.$refs['corrugated'][index]
+      if (corrugatedDom.classList.contains('active')) {
+        return false
       }
-      let x = e.offsetX;
-      let y = e.offsetY;
-      corrugatedDom.style.top = y - 15 + "px";
-      corrugatedDom.style.left = x - 15 + "px";
-      corrugatedDom.classList.add("active");
+      let x = e.offsetX
+      let y = e.offsetY
+      corrugatedDom.style.top = y - 15 + 'px'
+      corrugatedDom.style.left = x - 15 + 'px'
+      corrugatedDom.classList.add('active')
       this.$router.push({
-        path: "/listDetail",
-        query: { id: JSON.stringify(id) }
-      });
+        path: '/listDetail',
+        query: { id },
+      })
       setTimeout(() => {
-        corrugatedDom.classList.remove("active");
-      }, 1000);
-    }
-  }
-};
+        corrugatedDom.classList.remove('active')
+      }, 1000)
+    },
+  },
+}
 </script>
 
-<style lang='scss' scoped>
+<style lang="scss" scoped>
 .list {
   background-color: #fff;
   margin-top: 10px;
@@ -81,7 +76,7 @@ export default {
     font-size: 18px;
     margin-bottom: 15px;
     &::after {
-      content: " ";
+      content: ' ';
       position: absolute;
       left: 0;
       top: 0;

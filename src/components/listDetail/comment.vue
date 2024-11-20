@@ -6,40 +6,34 @@
       </div>
       <span slot="footer" class="dialog-footer">
         <el-button @click="dialogVisible = false">取 消</el-button>
-        <el-button type="primary" @click="dialogVisible = false,subcomment()">确 定</el-button>
+        <el-button type="primary" @click=";(dialogVisible = false), subcomment()">确 定</el-button>
       </span>
     </el-dialog>
     <div class="icon-comment">
-      <el-button
-        type="primary"
-        class="btnx"
-        icon="el-icon-s-comment"
-        circle
-        @click.native="dialogVisible=true"
-      ></el-button>
+      <el-button type="primary" class="btnx" icon="el-icon-s-comment" circle @click.native="dialogVisible = true"></el-button>
     </div>
     <el-card>
       <ul>
         <div class="comment-title">
           评论
-          <span class="sm">{{commentList.length}}</span>
+          <span class="sm">{{ commentList.length }}</span>
         </div>
-        <li v-if="commentList.length==0" class="no-comment">目前尚未有评论</li>
-        <li v-for="(item,index) in commentList" :key="index">
+        <li v-if="commentList.length == 0" class="no-comment">目前尚未有评论</li>
+        <li v-for="(item, index) in commentList" :key="index">
           <div class="user">
             <img :src="item.userId.avatar" :alt="item.userId.username" />
-            <span>{{item.userId.username}}</span>
+            <span>{{ item.userId.username }}</span>
             <span class="time">
               <i class="el-icon-timer"></i>
-              {{item.time}}
+              {{ item.time }}
             </span>
           </div>
           <div class="comment">
             <div class="floor">
               #
-              <span>{{index+1}}</span>
+              <span>{{ index + 1 }}</span>
             </div>
-            <div class="comment-content">{{item.content}}</div>
+            <div class="comment-content">{{ item.content }}</div>
           </div>
         </li>
       </ul>
@@ -49,51 +43,49 @@
 
 <script>
 export default {
+  props: {
+    id: {
+      type: String,
+      default: '',
+    },
+  },
   data() {
     return {
-      content: "",
+      content: '',
       dialogVisible: false,
-      commentList: []
-    };
+      commentList: [],
+    }
   },
   mounted() {
-    this.getComment();
+    this.getComment()
   },
   methods: {
     subcomment() {
-      if (this.content.replace(/ /g, "") == "") {
-        this.$message.error("请输入评论内容");
-        return false;
+      if (this.content.replace(/ /g, '') == '') {
+        this.$message.error('请输入评论内容')
+        return false
       }
-      let articleId = JSON.parse(this.$route.query.id);
-      this.$http
-        .post("/comment/sendComment", { content: this.content, articleId })
-        .then(res => {
-          if (res.code === 0) {
-            this.$message({
-              type: "success",
-              message: res.msg
-            });
-            this.getComment();
-          }
-        });
+      let articleId = this.id
+      this.$http.post('/comment/sendComment', { content: this.content, articleId }).then((res) => {
+        if (res) {
+          this.getComment()
+        }
+      })
     },
     async getComment() {
-      let articleId = JSON.parse(this.$route.query.id);
-      let req = await this.$http.get(
-        "/comment/getComment?articleId=" + articleId
-      );
-      if (req.code === 0) {
-        this.commentList = req.data;
+      let articleId = this.id
+      let req = await this.$http.get('/comment/getComment?articleId=' + articleId)
+      if (req) {
+        this.commentList = req
       } else {
-        this.$message.error("获取评论失败");
+        this.$message.error('获取评论失败')
       }
-    }
-  }
-};
+    },
+  },
+}
 </script>
 
-<style lang='scss' scoped>
+<style lang="scss" scoped>
 .comment-wrap {
   width: 1190px;
   margin: 10px auto;

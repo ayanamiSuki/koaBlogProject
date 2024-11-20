@@ -20,18 +20,6 @@ export default new Vuex.Store({
     },
   },
   actions: {
-    getUserInfo({ commit }, { req }) {
-      console.log('[ req ] >', req)
-      if (req.ctx.session.passport == undefined) {
-        return false
-      } else if (req.ctx.session.passport.user == undefined) {
-        return false
-      } else if (req.ctx.session.passport.user.username == '') {
-        return false
-      } else {
-        commit('SET_USER', req.ctx.session.passport.user)
-      }
-    },
     loginUser({ commit }, val) {
       commit('SET_USER', val)
     },

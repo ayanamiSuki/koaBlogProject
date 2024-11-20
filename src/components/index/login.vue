@@ -108,20 +108,15 @@ export default {
           console.log(this.$http)
 
           if (formName === 'ruleForm1') {
-            console.log(this.$http)
-
             this.$http
               .post('users/signin', {
                 password: this.ruleForm1.pass,
                 username: this.ruleForm1.username,
               })
               .then((res) => {
-                if (res.code === 0) {
-                  // this.$message.success(res.msg)
-                  setToken(res.data)
+                if (res) {
+                  setToken(res)
                   this.$emit('logined', null)
-                } else {
-                  this.$message.error(res.msg)
                 }
               })
             return false
