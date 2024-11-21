@@ -5,8 +5,8 @@
         <img :src="i.bg" alt="i.title" />
       </div>
       <div class="list-content-wrap">
-        <div>
-          <span class="lf t-bold f-hl">{{ i.title }}</span>
+        <div class="lf t-bold f-l p-t-5 p-b-5">
+          {{ i.title }}
         </div>
         <div class="rt f-s t-bold">
           <span>
@@ -21,9 +21,7 @@
             {{ i.click }}
           </span>
           /
-          <span class="sm from">
-            <span style="color: #666">未分类</span>
-          </span>
+          <span class="sm from">未分类</span>
         </div>
       </div>
       <div class="changeCover" ref="corrugated"></div>
@@ -56,7 +54,7 @@ export default {
       } else if (rect.width > 600) {
         page.column = 2
       }
-      el.style.setProperty('--column', page.column.toString())
+      el?.style.setProperty('--column', page.column.toString())
     })
     this.observer.observe(el)
   },
@@ -102,7 +100,6 @@ export default {
   .waterfall-item {
     background-color: #fff;
     margin-bottom: 20px;
-    border-radius: 5px;
     overflow: hidden;
     box-shadow: 0 0 12px #0000001f;
     color: #30445e;
