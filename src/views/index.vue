@@ -1,11 +1,12 @@
 <template>
   <div class="main">
     <el-row class="ohter-intro lg">
-      <span>Talk is cheap. Show me the code. ----Linus Torvalds</span>
+      <div>aysuki.com</div>
+      <div>Talk is cheap. Show me the code. ----Linus Torvalds</div>
     </el-row>
-    <el-row class="banner">
+    <!-- <el-row class="banner">
       <carousel :carouselList="carouselList" />
-    </el-row>
+    </el-row> -->
     <el-row class="list-content">
       <list-item class="list-item-wrap" :listData="list" />
       <aside-item class="aside-item-wrap" :asideList="asideList" />
@@ -21,13 +22,13 @@
 
 <script>
 import listItem from '../components/index/list'
-import carousel from '../components/index/carousel'
+// import carousel from '../components/index/carousel'
 import itemBtn from '../components/public/itemBtn'
 import asideItem from '../components/index/aside'
 export default {
   components: {
     listItem,
-    carousel,
+    // carousel,
     itemBtn,
     asideItem,
   },
