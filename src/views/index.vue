@@ -1,36 +1,26 @@
 <template>
   <div class="main">
-    <el-row class="ohter-intro lg">
-      <div>aysuki.com</div>
-      <div>Talk is cheap. Show me the code. ----Linus Torvalds</div>
-    </el-row>
-    <!-- <el-row class="banner">
-      <carousel :carouselList="carouselList" />
-    </el-row> -->
-    <el-row class="list-content">
-      <list-item class="list-item-wrap" :listData="list" />
-      <aside-item class="aside-item-wrap" :asideList="asideList" />
-    </el-row>
-    <el-row class="page">
+    <list-item class="list-item-wrap" :listData="list" />
+    <!-- <el-row class="page">
       <el-pagination background layout="prev, pager, next" :total="count" @current-change="pageChage"></el-pagination>
     </el-row>
     <el-row class="fixed-btn">
       <itemBtn />
-    </el-row>
+    </el-row> -->
   </div>
 </template>
 
 <script>
 import listItem from '../components/index/list'
 // import carousel from '../components/index/carousel'
-import itemBtn from '../components/public/itemBtn'
-import asideItem from '../components/index/aside'
+// import itemBtn from '../components/public/itemBtn'
+// import asideItem from '../components/index/aside'
 export default {
   components: {
     listItem,
     // carousel,
-    itemBtn,
-    asideItem,
+    // itemBtn,
+    // asideItem,
   },
 
   data() {
@@ -64,6 +54,9 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.main {
+  padding: 0 4%;
+}
 .page {
   width: 1190px;
   margin: 0 auto;
@@ -123,14 +116,11 @@ export default {
   }
 }
 .list-content {
-  min-height: 200px;
-  display: flex;
-  width: 1190px;
-  margin: 0 auto;
-  margin-top: 20px;
+  height: 100%;
+  padding: 0 4%;
+  box-sizing: border-box;
   .list-item-wrap {
-    width: 70%;
-    margin-top: 5px;
+    width: 100%;
   }
   .aside-item-wrap {
     width: 28%;

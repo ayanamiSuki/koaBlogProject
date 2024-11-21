@@ -36,13 +36,15 @@ module.exports = defineConfig({
   },
   css: {
     loaderOptions: {
-      postcss: {
-        plugins: [require('tailwindcss'), require('autoprefixer')]
-      },
       sass: {
         additionalData: `@use "sass:list";@use "~@/assets/scss/public/variables.scss" as *;`,
         sassOptions: {
           outputStyle: 'expanded',
+        },
+      },
+      postcss: {
+        postcssOptions: {
+          plugins: [require('tailwindcss'), require('autoprefixer')],
         },
       },
     },

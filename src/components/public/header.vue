@@ -13,25 +13,31 @@
     <transition name="slide-down">
       <forget @forgetSuccess="forgetStatus = false" @closeModel="forgetStatus = false" v-if="forgetStatus" ref="forgetComponent" />
     </transition>
-    <div class="title">ays test web</div>
-    <el-row class="user-content">
-      <el-dropdown v-if="username">
-        <span class="avatar el-dropdown-link">
-          <img
-            :src="$store.state.userInfo.avatar || 'https://wx3.sinaimg.cn/mw690/9afd6f06gy1gd7peyq4v8j20f80e90t6.jpg'"
-            :alt="'欢迎' + $store.state.userInfo.username + '来到ayanamiSuki的小窝'"
-          />
-        </span>
-        <el-dropdown-menu slot="dropdown">
-          <el-dropdown-item @click.native="$router.push('/center')">个人中心</el-dropdown-item>
-          <el-dropdown-item @click.native="$router.push('/')">返回首页</el-dropdown-item>
-          <el-dropdown-item @click.native="exit()">退出登录</el-dropdown-item>
-        </el-dropdown-menu>
-      </el-dropdown>
-      <el-row v-else>
-        <span @click="loginStatus = true" class="not-login">注册/登录</span>
+    <div>
+      <div class="f-hl t-bold">aysuki.com</div>
+      <div>Talk is cheap. Show me the code. ----Linus Torvalds</div>
+    </div>
+    <div class="title flex items-center justify-between">
+      <span class="pr-2">ays test web</span>
+      <el-row class="user-content">
+        <el-dropdown v-if="username">
+          <span class="avatar el-dropdown-link">
+            <img
+              :src="$store.state.userInfo.avatar || 'https://wx3.sinaimg.cn/mw690/9afd6f06gy1gd7peyq4v8j20f80e90t6.jpg'"
+              :alt="'欢迎' + $store.state.userInfo.username + '来到ayanamiSuki的小窝'"
+            />
+          </span>
+          <el-dropdown-menu slot="dropdown">
+            <el-dropdown-item @click.native="$router.push('/center')">个人中心</el-dropdown-item>
+            <el-dropdown-item @click.native="$router.push('/')">返回首页</el-dropdown-item>
+            <el-dropdown-item @click.native="exit()">退出登录</el-dropdown-item>
+          </el-dropdown-menu>
+        </el-dropdown>
+        <el-row v-else>
+          <span @click="loginStatus = true" class="not-login">注册/登录</span>
+        </el-row>
       </el-row>
-    </el-row>
+    </div>
   </div>
 </template>
 
@@ -97,7 +103,8 @@ export default {
   height: 100px;
   display: flex;
   align-items: center;
-  justify-content: flex-end;
+  justify-content: space-between;
+  padding: 0 5%;
   .not-login {
     color: #666;
     line-height: 100px;

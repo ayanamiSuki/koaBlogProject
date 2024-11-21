@@ -18,6 +18,7 @@ export default {};
   padding: 10px;
   font-size: 12px;
   color: #666;
+  height: 80px;
   div {
     text-align: center;
     padding: 5px;

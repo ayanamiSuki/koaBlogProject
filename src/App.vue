@@ -1,7 +1,9 @@
 <template>
-  <div class="container">
+  <div class="w-100p h-100p">
     <aya-header />
-    <router-view />
+    <div class="middle-container bg-gray-50">
+      <router-view />
+    </div>
     <aya-footer />
   </div>
 </template>
@@ -16,3 +18,9 @@ export default {
   },
 }
 </script>
+<style lang="css" scoped>
+.middle-container {
+  height: calc(100% - 180px);
+  overflow-y: auto;
+}
+</style>
