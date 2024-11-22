@@ -1,13 +1,13 @@
 <template>
   <div class="itemBtn-wrap">
-    <el-button
+    <!-- <el-button
       type="success"
       class="edit"
       icon="el-icon-top"
       style="margin-left: 10px;"
       circle
       @click="backTop"
-    ></el-button>
+    ></el-button> -->
     <!-- <el-button type="warning" class="edit" icon="el-icon-star-off" circle></el-button>
     <el-button type="danger" class="edit" icon="el-icon-user" circle></el-button>-->
     <el-button type="primary" class="edit" icon="el-icon-edit" circle @click="punish"></el-button>
@@ -27,20 +27,7 @@ export default {
     },
     //返回顶部
     backTop() {
-      var scrollToptimer = setInterval(function() {
-        var top = document.body.scrollTop || document.documentElement.scrollTop;
-        var speed = top / 4;
-
-        if (document.body.scrollTop != 0) {
-          document.body.scrollTop -= speed;
-        } else {
-          document.documentElement.scrollTop -= speed;
-        }
-
-        if (top == 0) {
-          clearInterval(scrollToptimer);
-        }
-      }, 15);
+      document.getElementById("waterfallBox").scrollTop = 0;
     }
   }
 };
@@ -59,9 +46,9 @@ export default {
     transition: all 0.3s linear;
     margin-top: 10px;
     box-shadow: 2px 2px 10px 0 rgba(0, 0, 0, 0.2);
-    background: #ff909b;
-    border-color: #ff909b;
-    color: #fff;
+    // background: #ff909b;
+    // border-color: #ff909b;
+    // color: #fff;
     font-size: 21px;
     &:hover {
       transform: scale(1.2);

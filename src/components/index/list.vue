@@ -1,7 +1,7 @@
 <template>
   <div class="h-100p w-100p">
     <transition-group :name="page.move ? 'group' : ''" class="waterfall-box" id="waterfallBox" tag="div">
-      <div class="waterfall-item" v-for="i in listData" @click="corrugatedClick(i._id)" :key="i._id">
+      <div class="waterfall-item pointer" v-for="i in listData" @click="corrugatedClick(i._id)" :key="i._id">
         <img class="waterfall-bg" :src="i.bg" alt="i.title" />
         <div class="list-content-wrap">
           <div class="lf t-bold f-l p-t-5 p-b-5">
@@ -111,6 +111,7 @@ export default {
   align-items: end;
   grid-gap: 0 20px;
   padding: 20px 0;
+  overflow-y: auto;
   .waterfall-item {
     background-color: #fff;
     margin-bottom: 20px;
@@ -118,6 +119,13 @@ export default {
     box-shadow: 0 0 12px #0000001f;
     color: #30445e;
     padding: 10px;
+    &:hover{
+      .waterfall-bg{
+        transition: all .3s;
+        transform: scale(1.05);
+        opacity: .9;
+      }
+    }
     .rt {
       span {
         padding: 5px;

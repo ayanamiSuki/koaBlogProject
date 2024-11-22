@@ -1,25 +1,26 @@
 <template>
-  <div class="main">
-    <list-item class="list-item-wrap" :listData="list" />
+  <div class="main h-100p">
+    <list-item :listData="list" />
     <!-- <el-row class="page">
       <el-pagination background layout="prev, pager, next" :total="count" @current-change="pageChage"></el-pagination>
-    </el-row>
+    </el-row> -->
+    <!-- 发布文章，置顶 -->
     <el-row class="fixed-btn">
       <itemBtn />
-    </el-row> -->
+    </el-row>
   </div>
 </template>
 
 <script>
 import listItem from '../components/index/list'
 // import carousel from '../components/index/carousel'
-// import itemBtn from '../components/public/itemBtn'
+import itemBtn from '../components/public/itemBtn'
 // import asideItem from '../components/index/aside'
 export default {
   components: {
     listItem,
     // carousel,
-    // itemBtn,
+    itemBtn,
     // asideItem,
   },
 
