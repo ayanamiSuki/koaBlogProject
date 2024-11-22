@@ -1,31 +1,31 @@
 <template>
-  <div class="waterfall-box">
-    <div class="waterfall-item" v-for="(i, index) in listData" @click="corrugatedClick(i._id)" :key="index">
-      <div>
-        <img :src="i.bg" alt="i.title" />
-      </div>
-      <div class="list-content-wrap">
-        <div class="lf t-bold f-l p-t-5 p-b-5">
-          {{ i.title }}
+  <div class="h-100p w-100p">
+    <transition-group :name="page.move ? 'group' : ''" class="waterfall-box" id="waterfallBox" tag="div">
+      <div class="waterfall-item" v-for="i in listData" @click="corrugatedClick(i._id)" :key="i._id">
+        <img class="waterfall-bg" :src="i.bg" alt="i.title" />
+        <div class="list-content-wrap">
+          <div class="lf t-bold f-l p-t-5 p-b-5">
+            {{ i.title }}
+          </div>
+          <div class="rt f-s t-bold">
+            <span>
+              {{ i.user }}
+            </span>
+            /
+            <span class="tips sm">
+              {{ i.time }}
+            </span>
+            /
+            <span class="click-count sm">
+              {{ i.click }}
+            </span>
+            /
+            <span class="sm from">未分类</span>
+          </div>
         </div>
-        <div class="rt f-s t-bold">
-          <span>
-            {{ i.user }}
-          </span>
-          /
-          <span class="tips sm">
-            {{ i.time }}
-          </span>
-          /
-          <span class="click-count sm">
-            {{ i.click }}
-          </span>
-          /
-          <span class="sm from">未分类</span>
-        </div>
+        <div class="changeCover" ref="corrugated"></div>
       </div>
-      <div class="changeCover" ref="corrugated"></div>
-    </div>
+    </transition-group>
   </div>
 </template>
 
@@ -43,20 +43,33 @@ export default {
       observer: null,
     }
   },
+  watch: {
+    'page.column'() {
+      const imgs = document.getElementById('waterfallBox')?.getElementsByClassName('waterfall-bg')
+      if (imgs && imgs.length) {
+        for (let i = 0; i < imgs.length; i++) {
+          this.setItemStyle(imgs[i], i)
+        }
+      }
+    },
+  },
   mounted() {
+    const self = this
     const el = document.querySelector('.waterfall-box')
     this.observer = new ResizeObserver(function (entries) {
       const rect = entries[0].contentRect
       if (rect.width > 1200) {
-        page.column = 4
+        self.page.column = 4
       } else if (rect.width > 900) {
-        page.column = 3
+        self.page.column = 3
       } else if (rect.width > 600) {
-        page.column = 2
+        self.page.column = 2
+      } else if (rect.width > 200) {
+        self.page.column = 1
       }
-      el?.style.setProperty('--column', page.column.toString())
+      el?.style.setProperty('--column', self.page.column.toString())
     })
-    this.observer.observe(el)
+    self.observer.observe(el)
   },
   beforeDestroy() {
     this.observer.disconnect()
@@ -71,10 +84,11 @@ export default {
     setItemStyle(img, index) {
       // console.log(index, img);
       if (!img) return
+      const self = this
       function update() {
         const item = img.parentElement
         if (!item) return
-        const gapRows = index >= page.column ? page.column * 2 : 0
+        const gapRows = index >= self.page.column ? self.page.column * 2 : 0
         const rows = Math.ceil(item.clientHeight / 2) + gapRows
         item.style.gridRowEnd = `span ${rows}`
       }
@@ -88,12 +102,12 @@ export default {
   },
 }
 </script>
-
+<style lang="scss" src="./main.scss" scoped></style>
 <style lang="scss" scoped>
 .waterfall-box {
   --column: 4;
   display: grid;
-  grid-template-columns: repeat(var(--cloumn), 1fr);
+  grid-template-columns: repeat(var(--column), 1fr);
   align-items: end;
   grid-gap: 0 20px;
   padding: 20px 0;

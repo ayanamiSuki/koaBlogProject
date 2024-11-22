@@ -1,0 +1,16 @@
+.group-move,
+.group-enter-active,
+.group-leave-active {
+  transition: all 0.8s;
+}
+
+.group-enter,
+.group-leave-to {
+  opacity: 0;
+  transform: translate3d(0px, 30px, 0);
+}
+
+.group-leave-active {
+  position: absolute;
+}
+
