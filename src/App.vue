@@ -20,7 +20,7 @@ export default {
 </script>
 <style lang="css" scoped>
 .middle-container {
-  height: calc(100% - 180px);
-  overflow-y: auto;
+  min-height: calc(100% - 180px);
+  /* overflow-y: auto; */
 }
 </style>

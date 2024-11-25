@@ -76,12 +76,14 @@ export default {
 
 <style lang="scss" scoped>
 .header {
-  position: relative;
   height: 100px;
   display: flex;
   align-items: center;
   justify-content: space-between;
   padding: 0 5%;
+  position: sticky;
+  top: 0px;
+  background: #fff;
   .not-login {
     color: #666;
     line-height: 100px;
