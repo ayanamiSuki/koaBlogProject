@@ -3,6 +3,17 @@
     <transition-group :name="page.move ? 'group' : ''" class="waterfall-box" id="waterfallBox" tag="div">
       <div class="waterfall-item pointer" v-for="i in listData" @click="corrugatedClick(i._id)" :key="i._id">
         <img class="waterfall-bg" :src="i.bg" alt="i.title" />
+        <div class="view-or-edior flex items-center justify-center" v-if="isEditor" @click.stop>
+          <div @click="corrugatedClick(i._id, 'view')">
+            <el-button type="success" icon="el-icon-view" circle></el-button>
+          </div>
+          <div class="m-l-20 m-r-20" @click="corrugatedClick(i._id, 'editor')">
+            <el-button type="primary" icon="el-icon-edit" circle></el-button>
+          </div>
+          <div @click="confirmDeleteArticle(i._id)">
+            <el-button type="danger" icon="el-icon-delete" circle></el-button>
+          </div>
+        </div>
         <div class="list-content-wrap">
           <div class="lf t-bold f-l p-t-5 p-b-5">
             {{ i.title }}
@@ -31,7 +42,7 @@
 
 <script>
 export default {
-  props: ['listData'],
+  props: ['listData', 'isEditor'],
   data() {
     return {
       page: {
@@ -42,16 +53,6 @@ export default {
       },
       observer: null,
     }
-  },
-  watch: {
-    'page.column'() {
-      const imgs = document.getElementById('waterfallBox')?.getElementsByClassName('waterfall-bg')
-      if (imgs && imgs.length) {
-        for (let i = 0; i < imgs.length; i++) {
-          this.setItemStyle(imgs[i], i)
-        }
-      }
-    },
   },
   mounted() {
     const self = this
@@ -68,6 +69,7 @@ export default {
         self.page.column = 1
       }
       el?.style.setProperty('--column', self.page.column.toString())
+      self.changeAllStyle()
     })
     self.observer.observe(el)
   },
@@ -75,11 +77,45 @@ export default {
     this.observer.disconnect()
   },
   methods: {
-    corrugatedClick(id) {
+    corrugatedClick(id, type) {
       this.$router.push({
-        path: '/listDetail',
+        path: type === 'editor' ? '/editor' : '/listDetail',
         query: { id },
       })
+    },
+    confirmDeleteArticle(id) {
+      this.$confirm('确认删除当前文章?', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning',
+      })
+        .then(() => {
+          this.deleteArticle(id)
+        })
+        .catch(() => {
+          this.$message({
+            type: 'info',
+            message: '已取消删除',
+          })
+        })
+    },
+    deleteArticle(id) {
+      this.$http.post('/article/deleteArticle', { id }).then((res) => {
+        if (res) {
+          this.$message.success('删除成功')
+          this.$emit('refresh')
+        } else {
+          this.$message.error('删除失败')
+        }
+      })
+    },
+    changeAllStyle() {
+      const imgs = document.getElementById('waterfallBox')?.getElementsByClassName('waterfall-bg')
+      if (imgs && imgs.length) {
+        for (let i = 0; i < imgs.length; i++) {
+          this.setItemStyle(imgs[i], i)
+        }
+      }
     },
     setItemStyle(img, index) {
       // console.log(index, img);
@@ -119,11 +155,30 @@ export default {
     box-shadow: 0 0 12px #0000001f;
     color: #30445e;
     padding: 10px;
-    &:hover{
-      .waterfall-bg{
-        transition: all .3s;
-        transform: scale(1.05);
-        opacity: .9;
+    position: relative;
+    .view-or-edior {
+      position: absolute;
+      left: 0;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      background-color: rgba($color: #000000, $alpha: 0.3);
+      transition: all 0.3s;
+      opacity: 0;
+    }
+    .waterfall-bg {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+    }
+    &:hover {
+      .view-or-edior {
+        opacity: 1;
+      }
+      .waterfall-bg {
+        transition: all 0.3s;
+        transform: scale(1.08);
+        opacity: 0.9;
       }
     }
     .rt {

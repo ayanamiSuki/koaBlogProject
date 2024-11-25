@@ -1,5 +1,6 @@
 import Vuex from 'vuex'
 import Vue from 'vue'
+import { removeToken } from '@/common/auth'
 Vue.use(Vuex)
 export default new Vuex.Store({
   state: {
@@ -8,6 +9,9 @@ export default new Vuex.Store({
       email: '',
       avatar: '',
     },
+  },
+  getters: {
+    userInfo: (state) => state.userInfo,
   },
   mutations: {
     SET_USER(state, val) {

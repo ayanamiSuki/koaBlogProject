@@ -13,12 +13,14 @@
       </div>
     </el-row>
     <div class="zone">
-      <div>
+      <!-- <div>
         <el-button class="sm se-title" @click="insertTitle">插入副标题</el-button>
-      </div>
-      <div id="editor">
-        <Toolbar style="border-bottom: 1px solid #ccc" :editor="editor" :defaultConfig="toolbarConfig" :mode="mode" />
-        <Editor style="height: 500px; overflow-y: hidden" v-model="html" :defaultConfig="editorConfig" :mode="mode" @onCreated="onCreated" />
+      </div> -->
+      <div id="editorContaienr">
+        <!-- 工具栏 -->
+        <Toolbar style="border-bottom: 1px solid #ccc" :editor="editor" :defaultConfig="toolbarConfig" />
+        <!-- 编辑器 -->
+        <Editor style="height: 580px; overflow-y: hidden" :defaultConfig="editorConfig" v-model="html" @onCreated="onCreated" />
       </div>
     </div>
     <el-row class="sub">
@@ -45,73 +47,51 @@
 import xss from 'xss'
 import { Editor, Toolbar } from '@wangeditor/editor-for-vue'
 export default {
+  name: 'MyEditor',
   components: { Editor, Toolbar },
   data() {
     return {
       title: '',
-      editor: '',
+      editor: null,
       update: false,
       dialogVisible: false,
       reeditor: false,
       headImg: 'https://wx3.sinaimg.cn/mw690/9afd6f06gy1gctay1ir55j21yt0ik40w.jpg',
       file: '',
       netImg: 'http://www.',
-      toolbarConfig: {
-        toolbarKeys: [
-          // 菜单 key
-          'headerSelect',
-          // 分割线
-          '|',
-          // 菜单 key
-          'bold',
-          'italic',
-          // 菜单组，包含多个菜单
-          {
-            key: 'group-more-style', // 必填，要以 group 开头
-            title: '更多样式', // 必填
-            iconSvg: '<svg>....</svg>', // 可选
-            menuKeys: ['through', 'code', 'clearStyle'], // 下级菜单 key ，必填
-          },
-          // 继续配置其他菜单...
-        ],
-      },
+      toolbarConfig: {},
       html: '<p></p>',
-      editorConfig: { placeholder: '请输入内容...' },
-      mode: 'default', // or 'simple'
+      editorConfig: {
+        placeholder: '请输入内容...',
+        // autoFocus: false,
+        // 所有的菜单配置，都要在 MENU_CONF 属性下
+        MENU_CONF: {},
+      },
     }
   },
   mounted() {
-    this.getReviseData()
+    if (this.$route.query.id) {
+      this.getReviseData(this.$route.query.id)
+    }
   },
   beforeDestroy() {
     const editor = this.editor
     if (editor == null) return
-    editor.destroy() // 组件销毁时，及时销毁编辑器
+    editor.destroy() // 组件销毁时，及时销毁 editor ，重要！！！
   },
   methods: {
-    onCreated() {
-      this.editorInit()
+    onCreated(editor) {
+      this.editor = Object.seal(editor) // 【注意】一定要用 Object.seal() 否则会报错
     },
-    async getReviseData() {
-      if (this.$route.query.id) {
-        let req = await this.$http.get('article/getSingleArticle?id=' + JSON.parse(this.$route.query.id))
-        if (req.code === 0) {
-          console.log(req.data)
-          this.title = req.data.title
-          this.headImg = req.data.bg
-          this.netImg = req.data.bg
-          this.editor.cmd.do('insertHTML', req.data.content)
-          this.reeditor = true
-        }
+    async getReviseData(id) {
+      let req = await this.$http.get('article/getSingleArticle?id=' + id)
+      if (req && req._id) {
+        this.title = req.title
+        this.headImg = req.bg
+        this.netImg = req.bg
+        this.html = req.content
+        this.reeditor = true
       }
-    },
-    editorInit(editor) {
-      // const Editor = process.client ? require("wangeditor") : undefined;
-      // const Editor = window.wangEditor
-      // this.editor = new Editor('#editor')
-      // this.editor.customConfig.menus = ['code', 'image']
-      // this.editor.create()
-      this.editor = Object.seal(editor) // 一定要用 Object.seal() ，否则会报错
     },
     insertTitle() {
       this.editor.cmd.do('insertHTML', '<h2>二级标题</h2>')
@@ -128,16 +108,16 @@ export default {
       let id = ''
       if (this.reeditor) {
         _url = '/article/editArticle'
-        id = JSON.parse(this.$route.query.id)
+        id = this.$route.query.id
       }
       this.$http.post(_url, { title, content, bg, id }).then((res) => {
         if (res) {
           this.$message({
             type: 'success',
-            message: '发布成功',
+            message: this.reeditor ? '修改成功' : '发布成功',
           })
           setTimeout(() => {
-            this.$router.push('/')
+            this.$router.push(this.reeditor ? '/center' : '/')
           }, 1000)
         }
       })
@@ -167,9 +147,7 @@ export default {
           headers: { 'Content-Type': 'multipart/form-data' },
         } //添加请求头
         this.$http.reqeust('article/image', param, 'POST', config).then((response) => {
-          // console.log(response.data);
-          // this.headImg = response.data.url;
-          this.sub(response.data.url)
+          this.sub(response.url)
         })
       } else {
         this.sub(this.headImg)
@@ -218,15 +196,16 @@ export default {
 }
 .title {
   text-align: center;
-  padding: 130px 30px;
+  padding: 80px 30px;
   position: relative;
   overflow: hidden;
-  width: 1190px;
+  min-width: 600px;
+  width: 80%;
   margin: 0 auto;
-
+  z-index: 1;
   .upload-activex {
     position: absolute;
-    bottom: 0;
+    bottom: 10px;
     z-index: 1;
     left: 50%;
     margin-left: -50px;
@@ -239,7 +218,6 @@ export default {
       height: 40px;
       text-align: center;
       line-height: 40px;
-      box-shadow: 0px 2px 10px #c3c3c3;
     }
   }
 
@@ -258,17 +236,18 @@ export default {
   }
 }
 .zone {
-  width: 1190px;
+  min-width: 600px;
+  width: 80%;
   margin: 0 auto;
-  padding-top: 50px;
   .se-title {
     background: #ff909b;
     color: #fff;
   }
 }
 
-#editor {
-  margin-top: 15px;
+#editorContaienr {
+  border: 1px solid #ccc;
+  margin-top: 10px;
 }
 .sub {
   padding: 10px;

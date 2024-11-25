@@ -2,11 +2,11 @@
   <div class="header">
     <transition name="slide-down">
       <login
-        @loginSuccess="loginStatus = false"
-        @closeModel="loginStatus = false"
+        @loginSuccess="loginBox = false"
+        @closeModel="loginBox = false"
         @logined="handleLogin"
-        @showForget=";(forgetStatus = true), (loginStatus = false)"
-        v-if="loginStatus"
+        @showForget=";(forgetStatus = true), (loginBox = false)"
+        v-if="loginBox"
         ref="loginComponent"
       />
     </transition>
@@ -22,10 +22,7 @@
       <el-row class="user-content">
         <el-dropdown v-if="username">
           <span class="avatar el-dropdown-link">
-            <img
-              :src="$store.state.userInfo.avatar || 'https://wx3.sinaimg.cn/mw690/9afd6f06gy1gd7peyq4v8j20f80e90t6.jpg'"
-              :alt="'欢迎' + $store.state.userInfo.username + '来到ayanamiSuki的小窝'"
-            />
+            <img :src="avatar" />
           </span>
           <el-dropdown-menu slot="dropdown">
             <el-dropdown-item @click.native="$router.push('/center')">个人中心</el-dropdown-item>
@@ -34,7 +31,7 @@
           </el-dropdown-menu>
         </el-dropdown>
         <el-row v-else>
-          <span @click="loginStatus = true" class="not-login">注册/登录</span>
+          <span @click="loginBox = true" class="not-login">注册/登录</span>
         </el-row>
       </el-row>
     </div>
@@ -44,7 +41,7 @@
 <script>
 import login from '../index/login'
 import forget from '../index/forgetUser'
-import { getToken } from '@/common/auth'
+import { getToken, removeToken } from '@/common/auth'
 export default {
   components: {
     login,
@@ -52,46 +49,26 @@ export default {
   },
   data() {
     return {
-      username: '',
-      loginStatus: false,
       forgetStatus: false,
+      loginBox: false,
     }
   },
-  async mounted() {
-    if (getToken()) {
-      await this.handleLogin()
-    }
-    this.loginState()
+  computed: {
+    username() {
+      return this.$store.getters.userInfo.username
+    },
+    avatar() {
+      return this.$store.getters.userInfo.avatar || 'https://wx3.sinaimg.cn/mw690/9afd6f06gy1gd7peyq4v8j20f80e90t6.jpg'
+    },
   },
   methods: {
-    loginState() {
-      if (this.$store.state.userInfo.username) {
-        this.loginStatus = false
-        this.username = this.$store.state.userInfo.username
-      }
-    },
     toCode() {
       this.$router.replace('/')
     },
-    handleLogin() {
-      return this.$http.get('/users/getUser').then((res) => {
-        this.username = res.username
-        this.loginStatus = false
-        this.$store.dispatch('loginUser', res)
-      })
-    },
     exit() {
-      this.$http.get('users/exit').then((res) => {
-        if (res.code === 0) {
-          this.$message({
-            type: 'success',
-            message: res.msg,
-          })
-          this.username = ''
-          this.$store.dispatch('exitUser')
-          this.$router.push('/')
-        }
-      })
+      removeToken()
+      this.$store.dispatch('exitUser')
+      this.$router.push('/')
     },
   },
 }

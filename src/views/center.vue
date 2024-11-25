@@ -4,11 +4,10 @@
       <itemBtn />
     </el-row>
     <aside>
-      <el-card>
+      <el-card class="m-t-5 m-b-5">
         <div class="user-info">
-          <img :src="userInfo.avatar" alt="userInfo.username+'的小窝，ayanami.com'" />
+          <!-- <img :src="userInfo.avatar" alt="userInfo.username+'的小窝，ayanami.com'" /> -->
           <span>{{ userInfo.username }}</span>
-          <span class="intro">{{ userInfo.email }}</span>
           <span class="intro">(*´▽｀)ノノ这是简介,当然，他还在施工中</span>
         </div>
       </el-card>
@@ -16,7 +15,9 @@
     <main class="main">
       <el-card>
         <div class="card-wrap">
-          <el-row class="my-article">我的动态</el-row>
+          <el-row class="my-article">
+            <span>我的动态</span>
+          </el-row>
 
           <div class="list-wrap">
             <div class="my-artitle">
@@ -26,10 +27,10 @@
               </span>
             </div>
             <ul class="list-item">
-              <li v-if="listItem.length === 0">您还没有发布文章</li>
-              <li v-for="(item, index) in listItem" :key="index" @click="toDetail(item._id)">
+              <div v-if="list.length === 0">您还没有发布文章</div>
+              <!-- <li v-for="(item, index) in listItem" :key="index" @click="toDetail(item._id)">
                 <div class="revise" @click.stop="toEditor(item._id)">
-                  <i class="el-icon-edit"></i>
+                  
                   编辑此文章
                 </div>
                 <div class="lf-img">
@@ -48,7 +49,8 @@
                     </span>
                   </div>
                 </div>
-              </li>
+              </li> -->
+              <list-item :listData="list" :isEditor="true" @refresh="getData" />
             </ul>
           </div>
         </div>
@@ -59,39 +61,54 @@
 
 <script>
 import itemBtn from '../components/public/itemBtn'
+import listItem from '../components/index/list'
 export default {
   components: {
     itemBtn,
-  },
-  head: {
-    title: '个人中心',
+    listItem,
   },
   data() {
     return {
-      userInfo: {},
-      listItem: [],
+      list: [],
     }
   },
   async mounted() {
-    let list = await this.$http.get('/article/myArticle')
-    if (list.code === 0) {
-      return { userInfo: store.state.userInfo, listItem: list.data }
-    }
+    this.getData()
+  },
+  computed: {
+    userInfo() {
+      return this.$store.state.userInfo
+    },
   },
   methods: {
+    async getData() {
+      this.list = await this.$http.get('/article/myArticle')
+    },
     toDetail(id) {
       this.$router.push({
         path: '/listDetail',
-        query: { id: JSON.stringify(id) },
+        query: { id },
       })
     },
     toEditor(id) {
       this.$router.push({
         path: '/editor',
-        query: { id: JSON.stringify(id) },
+        query: { id },
       })
     },
   },
 }
 </script>
-
+<style lang="scss" scoped>
+.container {
+  margin: 0 auto;
+  .my-article span {
+    border-bottom: 3px solid #1e80ff;
+    font-size: 18px;
+    display: inline-block;
+    width: 100px;
+    padding-bottom: 5px;
+    margin-bottom: 10px;
+  }
+}
+</style>

@@ -28,7 +28,6 @@ export default {
     return {
       isloading: false,
       list: [],
-      carouselList: [],
       asideList: [],
       count: 1,
     }
@@ -40,7 +39,6 @@ export default {
     async asyncData() {
       this.isloading = true
       this.list = await this.$http.get('article/getarticle?page=1')
-      this.carouselList = await this.$http.get('/article/getCarousel')
       this.asideList = await this.$http.get('/article/recommend')
       this.isloading = false
     },
