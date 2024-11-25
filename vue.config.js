@@ -1,5 +1,6 @@
 const { defineConfig } = require('@vue/cli-service')
 const path = require('path')
+const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin
 function resolve(dir) {
   return path.join(__dirname, dir)
 }
@@ -32,7 +33,23 @@ module.exports = defineConfig({
   //webpack部分配置
   chainWebpack: (config) => {
     config.resolve.alias.set('assets', resolve('src/assets')).set('@', resolve('src'))
+    // const externals = {
+    //   '@wangeditor/editor-for-vue': 'WangEditorForVue',
+    // }
+    // config.externals(externals)
     // #endregion
+  },
+  configureWebpack: (config) => {
+    const plugins = [
+      new BundleAnalyzerPlugin({
+        analyzerMode: 'server',
+        generateStatsFile: true,
+        statsOptions: { source: false },
+      }),
+    ]
+    return {
+      plugins,
+    }
   },
   css: {
     loaderOptions: {

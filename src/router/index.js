@@ -2,21 +2,18 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 // 把路由对应的组件和Hash映射起来
-import Center from '@/views/center.vue'
 import Index from '@/views/index.vue'
 import Editor from '@/views/editor.vue'
 import ListDetail from '@/views/listDetail.vue'
-import Picture from '@/views/picture.vue'
 import { fed } from './fed'
 // 安装Router插件
 Vue.use(Router)
 const routes = [
   { path: '/', redirect: '/home' },
   { path: '/home', component: Index },
-  { path: '/center', component: Center },
-  { path: '/editor', component: Editor },
-  { path: '/listDetail', component: ListDetail },
-  { path: '/picture', component: Picture },
+  { path: '/center', component: () => import('@/views/center.vue') },
+  { path: '/editor', component: () => import('@/views/editor.vue') },
+  { path: '/listDetail', component: () => import('@/views/listDetail.vue') },
 ]
 
 const router = new Router({ routes })
