@@ -33,10 +33,11 @@ module.exports = defineConfig({
   //webpack部分配置
   chainWebpack: (config) => {
     config.resolve.alias.set('assets', resolve('src/assets')).set('@', resolve('src'))
-    // const externals = {
-    //   '@wangeditor/editor-for-vue': 'WangEditorForVue',
-    // }
-    // config.externals(externals)
+    const externals = {
+      vue: "Vue",
+      VueQuillEditor:'vue-quill-editor'
+    }
+    config.externals(externals)
     // #endregion
   },
   configureWebpack: (config) => {
