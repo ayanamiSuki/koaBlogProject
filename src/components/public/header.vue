@@ -4,7 +4,6 @@
       <login
         @loginSuccess="loginBox = false"
         @closeModel="loginBox = false"
-        @logined="handleLogin"
         @showForget=";(forgetStatus = true), (loginBox = false)"
         v-if="loginBox"
         ref="loginComponent"
@@ -14,11 +13,11 @@
       <forget @forgetSuccess="forgetStatus = false" @closeModel="forgetStatus = false" v-if="forgetStatus" ref="forgetComponent" />
     </transition>
     <div>
-      <div class="f-hl t-bold">aysuki.com</div>
+      <div class="f-hl t-bold pointer" @click="toHome">aysuki.com</div>
       <div>Talk is cheap. Show me the code. ----Linus Torvalds</div>
     </div>
-    <div class="title flex items-center justify-between">
-      <span class="pr-2">ays test web</span>
+    <div class="title ui-flex col-center">
+      <span class="p-r-10">ays test web</span>
       <el-row class="user-content">
         <el-dropdown v-if="username">
           <span class="avatar el-dropdown-link">
@@ -62,6 +61,10 @@ export default {
     },
   },
   methods: {
+    
+    toHome(){
+      this.$router.push('/')
+    },
     toCode() {
       this.$router.replace('/')
     },
@@ -83,6 +86,7 @@ export default {
   padding: 0 5%;
   position: sticky;
   top: 0px;
+  z-index: 1;
   background: #fff;
   .not-login {
     color: #666;

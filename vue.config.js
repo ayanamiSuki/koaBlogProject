@@ -42,7 +42,7 @@ module.exports = defineConfig({
   configureWebpack: (config) => {
     const plugins = [
       new BundleAnalyzerPlugin({
-        analyzerMode: 'server',
+        analyzerMode: 'static',
         generateStatsFile: true,
         statsOptions: { source: false },
       }),
@@ -61,7 +61,7 @@ module.exports = defineConfig({
       },
       postcss: {
         postcssOptions: {
-          plugins: [require('tailwindcss'), require('autoprefixer')],
+          plugins: [require('autoprefixer')],
         },
       },
     },

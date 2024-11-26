@@ -4,7 +4,9 @@
       <div class="user">{{ listDetail.user }}</div>
       <div class="time">{{ listDetail.time }}</div>
       <div class="title">{{ listDetail.title }}</div>
-      <div v-html="listDetail.content" class="content"></div>
+      <div class="ql-container ql-snow">
+        <div class="ql-editor" v-html="listDetail.content"></div>
+      </div>
     </div>
     <comment class="comment-components" :id="id" />
   </div>
@@ -61,27 +63,27 @@ export default {
       color: #a8a8a8;
       font-size: 14px;
     }
-    .content {
-      padding-top: 15px;
-      line-height: 24px;
-      h2 {
-        color: #002d4a;
-        padding: 20px 0;
-        font-size: 21px;
-      }
-      pre {
-        margin: 10px 0;
-        background-color: #19425c;
-        padding: 10px;
-        code {
-          color: #fff;
-          white-space: pre-wrap;
-        }
-      }
-      img {
-        max-width: 100%;
-      }
-    }
+    // .content {
+    //   padding-top: 15px;
+    //   line-height: 24px;
+    //   h2 {
+    //     color: #002d4a;
+    //     padding: 20px 0;
+    //     font-size: 21px;
+    //   }
+    //   pre {
+    //     margin: 10px 0;
+    //     background-color: #19425c;
+    //     padding: 10px;
+    //     code {
+    //       color: #fff;
+    //       white-space: pre-wrap;
+    //     }
+    //   }
+    //   img {
+    //     max-width: 100%;
+    //   }
+    // }
   }
 }
 @media screen and (max-width: 960px) {

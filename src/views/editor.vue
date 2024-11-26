@@ -13,14 +13,9 @@
       </div>
     </el-row>
     <div class="zone">
-      <!-- <div>
-        <el-button class="sm se-title" @click="insertTitle">插入副标题</el-button>
-      </div> -->
       <div id="editorContaienr">
-        <!-- 工具栏 -->
-        <Toolbar style="border-bottom: 1px solid #ccc" :editor="editor" :defaultConfig="toolbarConfig" />
-        <!-- 编辑器 -->
-        <Editor style="height: 580px; overflow-y: hidden" :defaultConfig="editorConfig" v-model="html" @onCreated="onCreated" />
+        <!-- Or manually control the data synchronization -->
+        <quill-editor  v-model="html" :options="editorOption" />
       </div>
     </div>
     <el-row class="sub">
@@ -45,10 +40,13 @@
 
 <script>
 import xss from 'xss'
-import { Editor, Toolbar } from '@wangeditor/editor-for-vue'
+import 'quill/dist/quill.core.css'
+import 'quill/dist/quill.snow.css'
+import 'quill/dist/quill.bubble.css'
+import { quillEditor } from 'vue-quill-editor'
 export default {
   name: 'MyEditor',
-  components: { Editor, Toolbar },
+  components: {  quillEditor },
   data() {
     return {
       title: '',
@@ -61,6 +59,10 @@ export default {
       netImg: 'http://www.',
       toolbarConfig: {},
       html: '<p></p>',
+      editorOption: {
+          // Some Quill options...
+          placeholder: '请输入内容...',
+        },
       editorConfig: {
         placeholder: '请输入内容...',
         // autoFocus: false,
@@ -129,10 +131,10 @@ export default {
       this.netImg = ''
     },
     updateImage() {
-      if (this.file == '' && this.netImg == '') {
-        this.$message.error('请上传头图')
-        return false
-      }
+      // if (this.file == '' && this.netImg == '') {
+      //   this.$message.error('请上传头图')
+      //   return false
+      // }
       if (this.title.length < 2 || this.title.length > 50) {
         this.$message.error('标题字数限制为2-50字')
         return false

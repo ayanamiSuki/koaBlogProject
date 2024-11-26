@@ -1,7 +1,7 @@
 <template>
   <el-card class="wrap">
     <i class="el-icon-circle-close" @click="closeModel"></i>
-    <el-row class="welcome">welcome to ayanamiSuki</el-row>
+    <el-row class="welcome">welcome to aySuki</el-row>
     <el-row class="th" type="flex" justify="center">
       <el-col :span="3" @click.native="islogin = true" class="loginbtn" :class="islogin ? 'active' : ''">登录</el-col>
       <el-col :span="1">|</el-col>
@@ -105,8 +105,6 @@ export default {
     submitForm(formName) {
       this.$refs[formName].validate((valid) => {
         if (valid) {
-          console.log(this.$http)
-
           if (formName === 'ruleForm1') {
             this.$http
               .post('users/signin', {
@@ -116,7 +114,8 @@ export default {
               .then((res) => {
                 if (res) {
                   setToken(res)
-                  this.$emit('logined', null)
+                  this.$emit('loginSuccess')
+                  this.refreshRoute()
                 }
               })
             return false
@@ -142,6 +141,14 @@ export default {
           }
         }
       })
+    },
+    refreshRoute() {
+      // 获取当前路由的查询参数
+      const currentQuery = this.$route.query
+
+      // 添加一个随机的查询参数来强制刷新
+      const randomValue = Math.random()
+      this.$router.push({ path: this.$route.path, query: { ...currentQuery, random: randomValue } })
     },
     sendMessage() {
       let that = this
