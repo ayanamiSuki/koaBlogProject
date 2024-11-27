@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import App from './App.vue'
 import { http } from './http/index'
-import './config/ele'
+// import './config/ele'
 import './assets/scss/public/global.scss'
 
 import store from '@/store'

@@ -34,22 +34,25 @@ module.exports = defineConfig({
   chainWebpack: (config) => {
     config.resolve.alias.set('assets', resolve('src/assets')).set('@', resolve('src'))
     const externals = {
-      vue: "Vue",
-      VueQuillEditor:'vue-quill-editor'
+      vue: 'Vue',
+      quill: 'Quill',
+      VueQuillEditor: 'vue-quill-editor',
+      'element-ui': 'ELEMENT',
     }
     config.externals(externals)
     // #endregion
   },
   configureWebpack: (config) => {
-    const plugins = [
-      new BundleAnalyzerPlugin({
-        analyzerMode: 'static',
-        generateStatsFile: true,
-        statsOptions: { source: false },
-      }),
-    ]
-    return {
-      plugins,
+    if (process.env.NODE_ENV === 'production') {
+      return {
+        plugins: [
+          new BundleAnalyzerPlugin({
+            analyzerMode: 'static',
+            generateStatsFile: true,
+            statsOptions: { source: false },
+          }),
+        ],
+      }
     }
   },
   css: {
