@@ -28,6 +28,8 @@ export default {
     return {
       isloading: false,
       list: [],
+      currentPage: 1,
+      pageSize: 20,
       asideList: [],
       count: 1,
     }
@@ -38,15 +40,17 @@ export default {
   methods: {
     async asyncData() {
       this.isloading = true
-      this.list = await this.$http.get('article/getarticle?page=1')
-      this.asideList = await this.$http.get('/article/recommend')
-      this.isloading = false
+      this.getPageList(1)
     },
-    async pageChage(val) {
-      let listRequest = await this.$http.get('article/getarticle?page=' + val)
-      if (listRequest.code === 0) {
-        this.list = listRequest.data.result
-      }
+    async getPageList(page) {
+      this.isloading = true
+      const { list = [] } = await this.$http.get('article/getarticle', {
+        page,
+        currentPage: this.currentPage,
+        pageSize: this.pageSize,
+      })
+      this.list = list
+      this.isloading = false
     },
   },
 }

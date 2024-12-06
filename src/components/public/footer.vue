@@ -1,15 +1,16 @@
 <template>
   <div class="aya-footer flex items-center justify-center">
     <div>
-      <!-- <a href="http://www.beian.miit.gov.cn/">黔ICP备20001117号</a>
-      <span>邮箱：support@beian.gov.cn</span> -->
+      <!-- <a href="http://www.beian.miit.gov.cn/">黔ICP备20001117号</a> -->
+      <a href="https://beian.miit.gov.cn/" target="_blank">黔ICP备2024041452号-1</a>
+      <span>邮箱：support@beian.gov.cn</span>
     </div>
     <div>建议使用chrome，firefox浏览，抵制IE从我做起</div>
   </div>
 </template>
 
 <script>
-export default {};
+export default {}
 </script>
 
 <style lang="scss">
