@@ -2,7 +2,7 @@
   <div class="h-100p w-100p">
     <transition-group :name="page.move ? 'group' : ''" class="waterfall-box" id="waterfallBox" tag="div">
       <div class="waterfall-item pointer" v-for="i in listData" @click="corrugatedClick(i._id)" :key="i._id">
-        <img class="waterfall-bg" :src="i.bg" alt="i.title" />
+        <img class="waterfall-bg" :src="i.bg" :alt="i.title" />
         <div class="view-or-edior ui-flex col-center row-center" v-if="isEditor" @click.stop>
           <div @click="corrugatedClick(i._id, 'view')">
             <el-button type="success" icon="el-icon-view" circle></el-button>
