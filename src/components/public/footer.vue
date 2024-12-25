@@ -1,9 +1,10 @@
 <template>
   <div class="aya-footer flex items-center justify-center">
-    <div>
+    <div class="ui-flex col-center row-center">
       <!-- <a href="http://www.beian.miit.gov.cn/">黔ICP备20001117号</a> -->
-      <a href="https://beian.miit.gov.cn/" target="_blank">黔ICP备2024041452号-1</a>
-      <span>邮箱：support@beian.gov.cn</span>
+      <img style="width: 16px;" src="@/assets/images/beian.png" alt="" srcset="" />
+      <a href="https://beian.mps.gov.cn/#/query/webSearch?code=52011502009461" rel="noreferrer" target="_blank">贵公网安备52011502009461</a>
+      <a class="m-l-20" href="https://beian.miit.gov.cn/" target="_blank">黔ICP备2024041452号-1</a>
     </div>
     <div>建议使用chrome，firefox浏览，抵制IE从我做起</div>
   </div>
@@ -25,7 +26,6 @@ export default {}
     padding: 5px;
     a,
     span {
-      padding: 0 15px;
       color: #666;
     }
   }
