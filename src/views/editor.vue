@@ -15,7 +15,7 @@
     <div class="zone">
       <div id="editorContaienr">
         <!-- Or manually control the data synchronization -->
-        <quill-editor  v-model="html" :options="editorOption" />
+        <quill-editor v-model="html" :options="editorOption" />
       </div>
     </div>
     <el-row class="sub">
@@ -46,7 +46,7 @@ import xss from 'xss'
 import { quillEditor } from 'vue-quill-editor'
 export default {
   name: 'MyEditor',
-  components: {  quillEditor },
+  components: { quillEditor },
   data() {
     return {
       title: '',
@@ -60,9 +60,9 @@ export default {
       toolbarConfig: {},
       html: '<p></p>',
       editorOption: {
-          // Some Quill options...
-          placeholder: '请输入内容...',
-        },
+        // Some Quill options...
+        placeholder: '请输入内容...',
+      },
       editorConfig: {
         placeholder: '请输入内容...',
         // autoFocus: false,
@@ -119,7 +119,7 @@ export default {
             message: this.reeditor ? '修改成功' : '发布成功',
           })
           setTimeout(() => {
-            this.$router.push(this.reeditor ? '/center' : '/')
+            this.$router.push('/center')
           }, 1000)
         }
       })

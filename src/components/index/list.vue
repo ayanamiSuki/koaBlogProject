@@ -14,6 +14,7 @@
             <el-button type="danger" icon="el-icon-delete" circle></el-button>
           </div>
         </div>
+        <div class="examine c-red" v-if="!i.examine">审核中</div>
         <div class="list-content-wrap">
           <div class="lf t-bold f-l p-t-5 p-b-5">
             {{ i.title }}
@@ -165,6 +166,16 @@ export default {
       background-color: rgba($color: #000000, $alpha: 0.3);
       transition: all 0.3s;
       opacity: 0;
+    }
+    .examine {
+      position: absolute;
+      transform: rotate(30deg);
+      right: 10px;
+      top: 30px;
+      font-weight: bold;
+      color: red;
+      font-size: 30px;
+      border: 2px solid red;
     }
     .waterfall-bg {
       width: 100%;
