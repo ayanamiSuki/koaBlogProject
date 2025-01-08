@@ -29,19 +29,20 @@ $axios.interceptors.response.use(
    * You can also judge the status by HTTP Status Code
    */
   (response) => {
+    console.log('[ response ] >', response)
     const res = response.data
     const { code, msg, data } = res
     if (code === -1) {
       window.Vue.prototype.$message.warning(msg)
       return null
     }
-    // if (code === 0) {
-    //   return data
-    // }
-    // if (code === 401) {
-    //   removeToken()
-    //   return window.location.reload()
-    // }
+    if (response.config.otherOptions.message) {
+      if (code === 0) {
+        window.Vue.prototype.$message.success(msg)
+      } else {
+        window.Vue.prototype.$message.warning(msg)
+      }
+    }
     return data
   },
   (error) => {

@@ -14,6 +14,7 @@ const routes = [
   { path: '/center', component: () => import('@/views/center.vue') },
   { path: '/editor', component: () => import('@/views/editor.vue') },
   { path: '/listDetail', component: () => import('@/views/listDetail.vue') },
+  { path: '/listExamine', component: () => import('@/views/listExamine.vue') },
 ]
 
 const router = new Router({ routes })

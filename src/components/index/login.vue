@@ -121,21 +121,19 @@ export default {
             return false
           } else {
             this.$http
-              .post('users/signup', {
-                username: this.ruleForm.username,
-                password: this.ruleForm.pass,
-                email: this.ruleForm.email,
-                code: this.ruleForm.code,
-              })
+              .post(
+                'users/signup',
+                {
+                  username: this.ruleForm.username,
+                  password: this.ruleForm.pass,
+                  email: this.ruleForm.email,
+                  code: this.ruleForm.code,
+                },
+                { message: true },
+              )
               .then((res) => {
-                if (res.code === 0) {
-                  this.$message({
-                    type: 'success',
-                    message: res.msg,
-                  })
+                if (res) {
                   this.islogin = true
-                } else {
-                  this.$message.error(res.msg)
                 }
               })
           }
@@ -151,7 +149,7 @@ export default {
       this.$router.push({ path: this.$route.path, query: { ...currentQuery, random: randomValue } })
     },
     sendMessage() {
-      let that = this
+      const that = this
       if (this.count !== 60) {
         return false
       }
@@ -160,20 +158,16 @@ export default {
           that.$refs['ruleForm'].validateField('username', (valid2) => {
             if (!valid2) {
               this.$http
-                .post('/users/verify', {
-                  username: this.ruleForm.username,
-                  email: this.ruleForm.email,
-                })
+                .post(
+                  '/users/verify',
+                  {
+                    username: this.ruleForm.username,
+                    email: this.ruleForm.email,
+                  },
+                  { message: true },
+                )
                 .then((res) => {
-                  if (res.code === 0) {
-                    that.$message({
-                      type: 'success',
-                      message: res.msg,
-                    })
-                    that.interval()
-                  } else {
-                    that.$message.error(res.msg)
-                  }
+                  res && that.interval()
                 })
             }
           })

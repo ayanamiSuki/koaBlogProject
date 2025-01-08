@@ -44,7 +44,7 @@ export default {
     },
     async getPageList(page) {
       this.isloading = true
-      const { list = [] } = await this.$http.get('article/getarticle', {
+      const { list = [] } = await this.$http.get('article/getArticle', {
         page,
         currentPage: this.currentPage,
         pageSize: this.pageSize,

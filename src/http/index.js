@@ -24,19 +24,19 @@ export const http = {
       }
     }
   },
-  post(url, entity) {
-    return this.reqeust(url, entity, 'POST')
+  post(url, entity, otherOptions) {
+    return this.reqeust(url, entity, 'POST', null, otherOptions)
   },
-  get(url, entity, noToken = false) {
-    return this.reqeust(url, entity, 'GET', this.jsonHeaders(), noToken)
+  get(url, entity, otherOptions) {
+    return this.reqeust(url, entity, 'GET', this.jsonHeaders(), otherOptions)
   },
-  reqeust(url, entity, method, headers = this.jsonHeaders(), noToken = false) {
+  reqeust(url, entity, method, headers = this.jsonHeaders(), otherOptions = { loading: false, message: false }) {
     let options = {
       headers,
       dataType: 'json',
       url: url,
       method: method,
-      noToken,
+      otherOptions,
     }
     if (entity && typeof entity !== 'undefined') {
       if (method === 'POST') {

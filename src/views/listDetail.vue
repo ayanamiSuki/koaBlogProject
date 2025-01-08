@@ -31,7 +31,7 @@ export default {
   },
   methods: {
     async asyncData(id) {
-      this.listDetail = await this.$http.get('/article/getarticleDetail', { _id: id })
+      this.listDetail = await this.$http.get('/article/getArticleDetail', { _id: id })
     },
   },
 }

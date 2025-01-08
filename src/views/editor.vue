@@ -27,8 +27,8 @@
         <span style="padding-bottom: 10px; display: inline-block">网络图片:</span>
         <el-input type="text" v-model="netImg" />
       </div>
-      <div>或者</div>
-      <label for="file">本地上传</label>
+      <!-- <div>或者</div>
+      <label for="file">本地上传</label> -->
       <input id="file" class="file" name="file" type="file" accept="image/png, image/gif, image/jpeg" @change="getImage" />
       <span slot="footer" class="dialog-footer">
         <el-button @click="dialogVisible = false">取 消</el-button>
@@ -106,7 +106,7 @@ export default {
       let title = this.title
       let html = this.html
       let content = xss(html) // 此处进行 xss 攻击过滤
-      let _url = '/article/uploadarticle'
+      let _url = '/article/uploadArticle'
       let id = ''
       if (this.reeditor) {
         _url = '/article/editArticle'

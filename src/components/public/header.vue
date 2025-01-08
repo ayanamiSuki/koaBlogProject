@@ -17,7 +17,7 @@
       <div>Talk is cheap. Show me the code. ----Linus Torvalds</div>
     </div>
     <div class="title ui-flex col-center">
-      <span class="p-r-10">ays test web</span>
+      <span class="p-r-10">{{username}}</span>
       <el-row class="user-content">
         <el-dropdown v-if="username">
           <span class="avatar el-dropdown-link">
