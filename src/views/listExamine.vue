@@ -4,8 +4,9 @@
       <el-card class="m-b-5" v-for="item of list" :key="item._id">
         <div>{{ item.title }}</div>
         <div>作者：{{ item.user }}</div>
-        <el-button class="m-t-5" size="mini" type="primary" @click="passed(item)">审核通过</el-button>
+        <el-button class="m-t-5" size="mini" type="primary" @click="passed(item)">通过</el-button>
       </el-card>
+      <div v-if="list.length===0&&!loading">没有审核文章或者你没有审核权限</div>
     </ul>
   </div>
 </template>

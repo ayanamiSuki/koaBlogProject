@@ -18,13 +18,13 @@ module.exports = defineConfig({
     },
     proxy: {
       '/api': {
-        target: 'http://123.207.64.4',
+        target: 'http://aysuki.com',
         ws: true,
         changeOrigin: true,
         pathRewrite: { '^/api': '' },
       },
       '/uploads': {
-        target: 'http://123.207.64.4',
+        target: 'http://aysuki.com',
         ws: true,
         changeOrigin: true,
       },

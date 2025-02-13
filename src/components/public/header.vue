@@ -25,6 +25,7 @@
           </span>
           <el-dropdown-menu slot="dropdown">
             <el-dropdown-item @click.native="$router.push('/center')">个人中心</el-dropdown-item>
+            <el-dropdown-item @click.native="$router.push('/listExamine')">审核区</el-dropdown-item>
             <el-dropdown-item @click.native="$router.push('/')">返回首页</el-dropdown-item>
             <el-dropdown-item @click.native="exit()">退出登录</el-dropdown-item>
           </el-dropdown-menu>
