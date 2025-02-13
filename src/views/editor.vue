@@ -55,7 +55,7 @@ export default {
       update: false,
       dialogVisible: false,
       reeditor: false,
-      headImg: '/public/cover.jpg',
+      headImg: '/cover.jpg',
       file: '',
       netImg: 'http://www.',
       toolbarConfig: {},
