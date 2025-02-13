@@ -27,8 +27,8 @@
         <span style="padding-bottom: 10px; display: inline-block">网络图片:</span>
         <el-input type="text" v-model="netImg" />
       </div>
-      <!-- <div>或者</div>
-      <label for="file">本地上传</label> -->
+      <div>或者</div>
+      <label for="file">本地上传</label>
       <input id="file" class="file" name="file" type="file" accept="image/png, image/gif, image/jpeg" @change="getImage" />
       <span slot="footer" class="dialog-footer">
         <el-button @click="dialogVisible = false">取 消</el-button>
@@ -43,6 +43,7 @@ import xss from 'xss'
 // import 'quill/dist/quill.core.css'
 // import 'quill/dist/quill.snow.css'
 // import 'quill/dist/quill.bubble.css'
+
 import { quillEditor } from 'vue-quill-editor'
 export default {
   name: 'MyEditor',
@@ -54,7 +55,7 @@ export default {
       update: false,
       dialogVisible: false,
       reeditor: false,
-      headImg: 'https://wx3.sinaimg.cn/mw690/9afd6f06gy1gctay1ir55j21yt0ik40w.jpg',
+      headImg: '/public/cover.jpg',
       file: '',
       netImg: 'http://www.',
       toolbarConfig: {},
@@ -131,10 +132,6 @@ export default {
       this.netImg = ''
     },
     updateImage() {
-      // if (this.file == '' && this.netImg == '') {
-      //   this.$message.error('请上传头图')
-      //   return false
-      // }
       if (this.title.length < 2 || this.title.length > 50) {
         this.$message.error('标题字数限制为2-50字')
         return false
@@ -144,6 +141,9 @@ export default {
       }
       if (this.netImg == '') {
         let param = new FormData() //创建form对象
+        if(this.file?.size > 1024 * 200){
+          return this.$message.error('封面图片大小不能超过200kb')
+        }
         param.append('file', this.file) //通过append向form对象添加数据
         let config = {
           headers: { 'Content-Type': 'multipart/form-data' },
